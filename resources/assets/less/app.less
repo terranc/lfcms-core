@@ -1,0 +1,27 @@
+@import "~nprogress/nprogress.css";
+@import "_base";
+
+[v-cloak] {
+    display: none;
+}
+
+#container {
+    & > .ant-layout {
+        background: transparent;
+    }
+
+    .ant-breadcrumb {
+        margin-bottom: 15px;
+        font-size: 13px;
+    }
+}
+body {
+    font-size: 13px;
+}
+
+#main {
+    & > .ant-layout-content {
+        & > .content {
+        }
+    }
+}

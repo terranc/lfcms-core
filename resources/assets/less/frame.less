@@ -1,0 +1,146 @@
+@import "_base";
+
+
+#main {
+    background: #f1f5f9 url('../images/bg.jpg') top left repeat-x;
+
+    .ant-layout-header {
+        padding: 0;
+        background-color: transparent;
+        height: auto;
+        min-height: 90px;
+        position: relative;
+    }
+}
+.ant-layout-content {
+    padding: 0 40px;
+    overflow: initial;
+
+    & > .ant-breadcrumb {
+        margin: 12px 0;
+    }
+
+    & > .content {
+        padding: 24px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .25);
+
+        & > iframe {
+            width: 100%;
+            border: none;
+            min-height: 300px;
+        }
+    }
+}
+
+#sidebar {
+    box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+    background-color: #fff;
+    overflow: auto;
+    .logo {
+        height: 50px;
+        background: url('../images/logo.png') center center no-repeat;
+        background-size: contain;
+        border-radius: 4px;
+        margin: 16px;
+        display: block;
+    }
+    /* 侧边菜单公共样式 */
+    .ant-layout-sider-trigger {
+        background-color: #fff;
+        color: rgba(64, 64, 64, 0.88);
+    }
+    .ant-menu-submenu {
+        font-size: 13px;
+    }
+    .ant-menu-item {
+        font-size: 14px;
+    }
+    .ant-menu-submenu {
+        .ant-menu-item {
+            font-size: 13px;
+        }
+        .ant-menu-submenu .ant-menu-submenu-title {
+            font-size: 13px;
+        }
+
+        .ant-menu-submenu-title {
+            font-size: 14px;
+
+            &.ant-menu-item-selected {
+                .nav-text {
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+    .ant-menu-item-selected:after {
+        right: auto;
+        left: 0;
+    }
+    &.ant-layout-sider-collapsed {
+        overflow: visible;
+        .logo {
+            background-image: url('../images/logo-mini.png');
+            background-size: contain;
+            opacity: 0;
+            animation: fadeIn .4s;
+            animation-delay: .2s;
+            animation-fill-mode: forwards;
+        }
+
+        & > .ant-menu-vertical {
+            .anticon {
+                font-size: 16px;
+                margin-left: 8px;
+            }
+            & > li {
+                .ant-menu-submenu-title {
+                    font-size: 13px;
+                }
+                & > .ant-menu-submenu-title {
+
+                    &:after {
+                        display: none;
+                    }
+                    & > span {
+                        & > .nav-text {
+                            display: none;
+                        }
+                    }
+                }
+                & > .nav-text {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+#container {
+    & > .ant-layout {
+        height: 100vh;
+    }
+}
+
+#nprogress {
+    .bar {
+        background: #fff;
+        .peg {
+            box-shadow: 0 0 10px #fff, 0 0 5px #fff;
+        }
+    }
+    .spinner {
+        .spinner-icon {
+            border-top-color: #fff;
+            border-left-color: #fff;
+        }
+    }
+}
+
+.modal-comon {
+    iframe {
+        height: 62vh;
+    }
+}
