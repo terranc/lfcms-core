@@ -5,7 +5,7 @@ docute.init({
     loading: {
         markdown: '# Loading...',
     },
-    'edit-link': 'https://github.com/terranc/lfcms-template/blob/master/docs/',
+    'edit-link': 'https://github.com/terranc/lfcms-template/tree/master/docs/',
     // plugins: [
     //     docsearch({
     //         apiKey: '你的 API Key',
