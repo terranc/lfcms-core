@@ -31,8 +31,8 @@
             </v-layout>
         </v-layout>
     </div>
-    <v-modal :title.sync="modal.title" :visible.sync="modal.visible" @ok="modalOk" @cancel="modalCancel" class="modal-comon" :width="760" :mask-closable="false">
-        <iframe width="100%" frameborder="0" :src="modal.url"></iframe>
+    <v-modal :title.sync="modal.title" :visible.sync="modal.visible" @ok="modalOk" @cancel="modalCancel" class="modal-comon" :width="700" :maskClosable>
+        <iframe width="100%" height="100%" frameborder="0" :src="modal.url"></iframe>
         <div slot="footer"></div>
     </v-modal>
 </div>

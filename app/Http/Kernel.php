@@ -13,11 +13,12 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
+
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
+        \App\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
     /**
@@ -34,8 +35,12 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-
-            \Spatie\Pjax\Middleware\FilterIfPjax::class,
+        ],
+        'admin' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+//            \App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
         'api' => [

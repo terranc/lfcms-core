@@ -1,0 +1,115 @@
+
+$border-width: 1px !default;
+$line-height-large:         (4 / 3) !default;
+$line-height-small:         1.5 !default;
+
+$border-radius-base:        .25rem !default;
+$border-radius-large:       .3rem !default;
+$border-radius-small:       .2rem !default;
+
+// Base colors
+
+$white:  #fff !default;
+$black:  #000 !default;
+$red:    #d9534f !default;
+$orange: #f0ad4e !default;
+$yellow: #ffd500 !default;
+$green:  #5cb85c !default;
+$blue:   #0275d8 !default;
+$teal:   #5bc0de !default;
+$pink:   #ff5b77 !default;
+$purple: #613d7c !default;
+$silver: #888 !default;
+$grey: #4A4A4A !default;
+$golden: #ffe69a !default;
+
+
+// Brands
+$brand-primary:             #4582EC;
+$brand-success:             #02B875;
+$brand-info:                #5bc0de !default;
+$brand-warning:             #f0ad4e !default;
+$brand-danger:              #d9534f !default;
+
+// Create grayscale
+$gray-dark:                 #373a3c !default;
+$gray:                      #55595c !default;
+$gray-light:                #818a91 !default;
+$gray-lighter: #ccc !default;
+$gray-lightest:             #f7f7f9 !default;
+
+$base-font-color: #4B4B4B;
+$primary-color: #4582EC;
+$light-grey-color: #AEAEAE;
+
+$line-grey-color: #DBE2E8;
+
+$link-color: $brand-primary !default;
+
+
+// Body
+$body-bg: #f1f5f9;
+
+// Girds
+$grid-gutter-width: 0px !default;
+
+// Borders
+$laravel-border-color: darken($body-bg, 10%);
+$list-group-border: $laravel-border-color;
+$navbar-default-border: $laravel-border-color;
+$panel-default-border: $laravel-border-color;
+$panel-inner-border: $laravel-border-color;
+
+// Typography
+$font-family-sans-serif: "Raleway", sans-serif;
+$font-size-base: 13px;
+$line-height-base: 1.5;
+$text-color: $base-font-color;
+
+// Navbar
+$navbar-default-bg: #fff;
+
+// Buttons
+$btn-default-color: $text-color;
+$btn-border-radius-base:         $border-radius-base !default;
+$btn-border-radius-large:        $border-radius-large !default;
+$btn-border-radius-small:        $border-radius-small !default;
+
+// Forms
+
+$input-padding-x:                .75rem !default;
+$input-padding-y:                .5rem !default;
+$input-line-height:              1.25 !default;
+$input-bg:                       $white !default;
+$input-bg-disabled:              $gray-lighter !default;
+$input-color: $gray !default;
+$input-border-color: rgba(0,0,0,.1);
+$input-box-shadow:               inset 0 1px 1px rgba($black,.075) !default;
+$input-border-focus:             lighten($brand-primary, 25%) !default;
+$input-color-placeholder:        $gray-lighter !default;
+
+$input-border-radius:            $border-radius-base !default;
+$input-border-radius-large:         $border-radius-large !default;
+$input-border-radius-small:         $border-radius-small !default;
+
+$input-bg-focus:                 $input-bg !default;
+$input-border-focus:             lighten($brand-primary, 25%) !default;
+$input-box-shadow-focus:         $input-box-shadow, rgba($input-border-focus, .6) !default;
+$input-color-focus:              $input-color !default;
+
+
+$input-group-addon-bg:           $gray-lightest;
+$input-group-addon-border-color: $input-border-color !default;
+
+// Panels
+$panel-default-heading-bg: #fff;
+
+// Menu
+$menuIndent: 24px;
+
+// Breadcrumb
+$breadcrumb-separator: '›';
+$breadcrumb-bg: transparent;
+
+$breadcrumb-padding-vertical: 0;
+$breadcrumb-padding-horizontal: 0;

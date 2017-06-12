@@ -1,0 +1,136 @@
+.btn-pill {
+  border-radius: 300px;
+}
+
+.form-control {
+  width: auto;
+  display: inline-block;
+  //background-color: #fafafa;
+  vertical-align: middle;
+}
+select.form-control {
+  padding-left: 10px;
+  padding-right: 10px;
+  min-width: 6em;
+}
+.form-control[type=text],
+.form-control[type=password],
+.form-control[type=email],
+.form-control[type=tel]{
+  min-width: 14em;
+}
+
+.pagination {
+  .page-item.disabled .page-link,
+  .page-item.disabled .page-link:focus,
+  .page-item.disabled .page-link:hover {
+    cursor: not-allowed;
+  }
+}
+
+table.table {
+  tbody, thead {
+    th, td {
+      vertical-align: middle;
+      &:not(:first-child) {
+        min-width: 3.4em;
+      }
+    }
+  }
+  .checkbox-col {
+    text-align: center;
+    width: 4em;
+    cursor: pointer;
+  }
+  @media (min-width: $screen-md-min) {
+    th[role=sortcolumn] {
+      cursor: pointer;
+      &:hover:after{
+        visibility: visible;
+        opacity: 1;
+      }
+      &:after {
+        content: '';
+        float: right;
+        margin-top: 7px;
+        margin-left: 4px;
+        border-width: 4px 0px 4px 4px;
+        border-style: solid;
+        border-color: transparent #404040;
+        visibility: visible;
+        opacity: 0.6;
+        user-select: none;
+      }
+      &[data-sort-by=desc]:after {
+        margin-left: 0;
+        border-width: 4px 4px 0;
+        border-color: #404040 transparent;
+      }
+      &[data-sort-by=asc]:after {
+        margin-left: 0;
+        border-width: 0 4px 4px;
+        border-color: #404040 transparent;
+      }
+    }
+  }
+  @media (max-width: $screen-md-min) {
+    table-layout: fixed;
+    background: transparent;
+    margin-bottom: 0;
+    width: 100%;
+    border: 0;
+    .checkbox-col {
+      display: none;
+    }
+    thead {
+      display: none;
+    }
+    tbody tr {
+      box-shadow: 0 0 4px rgba(0, 0, 0, .2);
+      background: #fff;
+      &:nth-of-type(odd),
+      &:hover{
+        background-color: transparent;
+      }
+      border-bottom: 1px solid $line-grey-color;
+      display: block;
+      margin: 0 0 10px 0;
+      padding: 10px 15px;
+    }
+    tbody tr td,
+    tbody tr th {
+      border: 0;
+      display: block;
+      text-align: right;
+      border-bottom: 1px solid $line-grey-color;
+      &:last-child {
+        border-bottom: 0;
+      }
+      &:before {
+        color: $silver;
+        text-transform: uppercase;
+        content: attr(data-title);
+        font-weight: 200;
+        float: left;
+        margin-right: 1em;
+      }
+    }
+    thead th {
+      text-transform: uppercase;
+      color: $silver;
+      letter-spacing: .5pt;
+    }
+  }
+}
+.breadcrumb {
+  a {
+    color: $base-font-color;
+  }
+}
+.radio-inline,
+.checkbox-inline {
+  label {
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+}

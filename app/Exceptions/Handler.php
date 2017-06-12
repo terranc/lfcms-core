@@ -2,12 +2,16 @@
 
 namespace App\Exceptions;
 
+use App\Traits\JsonResponseTrait;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Whoops\Exception\Formatter;
 
 class Handler extends ExceptionHandler
 {
+    use JsonResponseTrait;
     /**
      * A list of the exception types that should not be reported.
      *
@@ -44,9 +48,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ValidationException) {
+            $errors = $exception->validator->errors()->getMessages();
+
+            if ($request->expectsJson()) {
+                return $this->apiResponse(-422, '数据验证错误', $errors);
+            }
+
+            return redirect()->back()->withInput(
+                $request->input()
+            )->withErrors($errors);
+        }
+
         return parent::render($request, $exception);
     }
-
     /**
      * Convert an authentication exception into an unauthenticated response.
      *

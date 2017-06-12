@@ -1,29 +1,25 @@
 @foreach ((array) session('flash_notification') as $message)
-    @php
-        switch ($message['level']) {
-            case 'danger':
-                $className = 'error';
-                break;
-            default:
-                $className = $message['level'];
-                break;
-        }
-    @endphp
     @if ($message['overlay'])
-        <script>
-            Vue.$modal["{{ $className }}"]({
-                iconType: 'frown',
-                title: '"{{ $message[' title'] }}"',
-                content: '"{{ $message['message'] }}"',
-                okText: '知道了',
-                cancelText: '',
-                width: 300,
-            });
-        </script>
+        @include('flash::modal', [
+            'modalClass' => 'flash-modal',
+            'title'      => $message['title'],
+            'body'       => $message['message']
+        ])
     @else
-        <v-alert type="{{ $className }}" message="{{ $message['title'] }}"
-                 description="{{ $message['message'] }}" show-icon
-                 {{ $message['important'] ? 'closable' : '' }}></v-alert>
+        <div class="alert
+                    alert-{{ $message['level'] }}
+                    {{ $message['important'] ? 'alert-important' : '' }}"
+        >
+            @if ($message['important'])
+                <button type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-hidden="true"
+                >&times;</button>
+            @endif
+
+            {!! $message['message'] !!}
+        </div>
     @endif
 @endforeach
 

@@ -1,0 +1,42 @@
+
+
+// flex
+@mixin flex-between{
+  justify-content: space-between;
+}
+@mixin flex-start{
+  justify-content: flex-start;
+}
+@mixin flex-end{
+  justify-content: flex-end;
+}
+@mixin flex-center-vertical() {
+  display: flex;
+  align-items: center;
+}
+@mixin flex-center() {
+  @include flex-center-vertical;
+  justify-content: center;
+}
+
+// scroller
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 40%)) {
+  ::-webkit-scrollbar {
+    width:  $size;
+    height: $size;
+  }
+  -webkit-overflow-scrolling: touch;
+
+  ::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+  }
+
+  ::-webkit-scrollbar-thumb:vertical {
+    margin: 5px;
+    -webkit-border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+}

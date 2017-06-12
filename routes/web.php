@@ -14,11 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::group(['prefix' => 'admin'], function(){
-    Route::get('/', 'Controller@index');
-    Route::get('home', 'Controller@home');
-    Route::get('uikit/table', 'UikitController@table');
-    Route::get('uikit/form', 'UikitController@form');
-    Route::delete('uikit/delete/{id}', 'UikitController@delete');
-});

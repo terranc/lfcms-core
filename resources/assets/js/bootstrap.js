@@ -1,4 +1,4 @@
-window._ = require('lodash');
+// window._ = require('lodash');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -7,8 +7,8 @@ window._ = require('lodash');
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
-    // require('bootstrap-sass');
+    // window.$ = window.jQuery = require('jquery');
+    require('bootstrap-sass');
 } catch (e) {
 }
 
@@ -35,6 +35,41 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+window.axios.defaults.withCredentials = false;
+window.axios.interceptors.request.use((config) => {
+    config.validateStatus = (status) => {
+        return status >= 200 && status <= 502;
+    };
+    if (config.method === 'post' || config.method === 'put') {
+        window.loadingTimer = setTimeout(() => {
+            window.app.loading({
+                message: '提交中...',
+            });
+        }, 200);
+    }
+    return config;
+}, error => {
+    window.app.hideLoading();
+    return Promise.reject(error);
+});
+window.axios.interceptors.response.use(res => {
+    clearTimeout(window.loadingTimer);
+    window.app.hideLoading();
+    if (res.status < 200 || res.status >= 400) {
+        if (res.config.method === 'get' && res.status === 404) {
+            alert('资源不存在！');
+        } else {
+            $.notify('网络异常', {
+                type: 'warning',
+            });
+        }
+        return Promise.reject(res);
+    };
+    return res;
+}, error => {
+    window.app.hideLoading();
+    return Promise.reject(error);
+});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -51,13 +86,13 @@ if (token) {
 //     key: 'your-pusher-key'
 // });
 
-export default {
-    getRoot: () => {
-        let root = location.pathname;
-        if (root.substr(-1) === '/') {
-            return root;
-        } else {
-            return root + '/';
-        }
-    },
-};
+// export default {
+//     getRoot: () => {
+//         let root = location.pathname;
+//         if (root.substr(-1) === '/') {
+//             return root;
+//         } else {
+//             return root + '/';
+//         }
+//     },
+// };

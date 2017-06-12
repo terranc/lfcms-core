@@ -6,11 +6,47 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import bootstrap from './bootstrap';
+require('./bootstrap');
+require('bootstrap-notify');
+require('jquery-query-object');
+require('jquery-easy-loading/dist/jquery.loading');
+require('select2/dist/js/select2');
+require('select2/dist/js/i18n/zh-CN');
+require('eonasdan-bootstrap-datetimepicker');
+require('x-editable/dist/bootstrap3-editable/js/bootstrap-editable');
+$.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-sm editable-submit">保存</button>';
+$.fn.select2.defaults.set('theme', 'bootstrap');
+import datepicker from './components/datepicker.vue';
+import options from './components/options.vue';
+$.Loading.setDefaults({
+    message: '请稍后...',
+});
+import bootbox from 'bootbox';
+window.bootbox = bootbox;
+window.bootbox.setDefaults({
+    title: '提示',
+    locale: 'zh_CN',
+    backdrop: true,
+    className: 'lf-model',
+});
+$.notifyDefaults({
+    element: 'body',
+    allow_dismiss: true,
+    newest_on_top: true,
+    placement: {
+        from: 'top',
+        align: 'center'
+    },
+    delay: 2000,
+    animate: {
+        enter: 'animated fadeInDown',
+        exit: 'animated fadeOutUp'
+    },
+});
 // import iFrameResize from 'iframe-resizer';
 
-window.parentApp = window.top.app;
-let queryString = window.queryString = require('query-string');
+// window.parentApp = window.top.app;
+// let queryString = window.queryString = require('query-string');
 
 let serializer = require('dom-form-serializer').serialize;
 // var window.Vue = require('vue');
@@ -25,34 +61,29 @@ Vue.directive('confirm', {
     bind: (el, binding) => {
         let confirm = e => {
             e.preventDefault();
-            window.parentApp.$modal.confirm({
-                iconType: 'question-circle-o',
-                title: '确认提醒',
-                content: (binding.value && binding.value.title) || '确认要删除吗？',
-                // hasMask: false,
-                maskClosable: true,
-                okText: '确认',
-                onOk: function () {
+            bootbox.confirm({
+                title: '操作确认',
+                message: (binding.value && binding.value.title) || '确认要删除吗？',
+                callback: function(result) {
+                    if (!result) return;
                     if (el.tagName === 'FORM') {
                         return axios.request({
                             method: (binding.value && binding.value.method) || el.method.toLowerCase() || 'get',
                             url: el.href || el.action,
                             data: Object.assign({}, (binding.value && binding.value.data) || {}, serializer(el)),
                         }).then(res => {
-                            if (res.data.code > 1) {
-                                window.parentApp.$modal.error({
-                                    title: '提示',
-                                    content: res.data.message,
+                            if (res.data.code < 0) {
+                                bootbox.alert({
+                                    title: '错误',
+                                    message: res.data.message,
                                 });
                             } else {
-                                window.parentApp.$message.success(res.data.message);
+                                $.notify(res.data.message, {
+                                    type: 'success',
+                                });
                                 // 若data-callback指定了回调函数
                                 if (el.dataset.callback && el.dataset.callback in window) {
                                     window[el.dataset.callback].call(el);
-                                } else {
-                                    $(el).closest(binding.arg || el).fadeOut(function () {
-                                        this.remove();
-                                    });
                                 }
                             }
                         });
@@ -75,34 +106,42 @@ Vue.directive('delete', {
     bind: (el, binding) => {
         let confirm = e => {
             e.preventDefault();
-            window.parentApp.$modal.confirm({
-                iconType: 'question-circle-o',
-                title: '确认提醒',
-                content: (binding.value && binding.value.title) || '确认要删除吗？',
-                // hasMask: false,
-                maskClosable: true,
-                okText: '确认',
-                onOk: function () {
-                    return axios.delete(el.href || el.action, {
-                        data: Object.assign({}, (binding.value && binding.value.data) || {}, el.tagName === 'FORM' ? serializer(el) : {}),
-                    }).then(res => {
-                        if (res.data.code > 1) {
-                            window.parentApp.$modal.error({
-                                title: '提示',
-                                content: res.data.message,
-                            });
-                        } else {
-                            window.parentApp.$message.success(res.data.message);
-                            // 若data-callback指定了回调函数
-                            if (el.dataset.callback && el.dataset.callback in window) {
-                                window[el.dataset.callback].call(el);
-                            } else {
-                                $(el).closest(binding.arg || el).fadeOut(function () {
-                                    this.remove();
-                                });
-                            }
-                        }
+            bootbox.confirm({
+                title: '操作确认',
+                message: (binding.value && binding.value.title) || '确认要删除吗？',
+                buttons: {
+                    confirm: {
+                        className: 'btn-primary btn-danger'
+                    },
+                },
+                callback: function (result) {
+                    if (!result) return;
+                    var form = $('<form>', {
+                        'method': 'POST',
+                        'action': el.href || el.action,
                     });
+                    form.append($('<input>', {
+                        'type': 'hidden',
+                        'name': '_token',
+                        'value': $('meta[name="csrf-token"]').attr('content') || ''
+                    }));
+                    form.append($('<input>', {
+                        'name': '_method',
+                        'type': 'hidden',
+                        'value': 'delete',
+                    }));
+                    let data;
+                    if (el.tagName === 'FORM') {
+                        data = serializer(el);
+                        Object.keys(data).map((item, index) => {
+                            form.append($('<input>', {
+                                'name': index,
+                                'type': 'hidden',
+                                'value': item,
+                            }));
+                        });
+                    }
+                    form.appendTo('body').submit();
                 },
             });
         };
@@ -130,55 +169,291 @@ Vue.directive('check-all', {
             }
         });
     },
+    inserted: (el) => {
+        // 扩大表格复选框点击范围
+        $(el).closest('table').find('.checkbox-col').each(function() {
+            $(this).on('click', e => {
+                $(e.target).find(':checkbox').trigger('click');
+            });
+        });
+    },
+});
+// tooltip 全选
+Vue.directive('tooltip', {
+    bind: (el, binding) => {
+        $(el).tooltip(Object.assign({}, {
+            container: 'body',
+        }, (binding && binding.value) || {}));
+    },
 });
 // modal iframe
 Vue.directive('modal-open', {
     bind: (el, binding) => {
         el.addEventListener('click', (e) => {
             e.preventDefault();
-            window.parentApp.modal = {
-                title: '阿斯顿',
-                visible: true,
-                url: e.target.href,
-            };
+            $('#modal-common').modal();
+            window.app.modal.url = e.target.href;
+        });
+    },
+});
+// datepicker
+Vue.directive('datepicker', {
+    inserted: (el, binding) => {
+        let format = el.dataset.format || 'YYYY-MM-DD';
+        $(el).datetimepicker(Object.assign({
+            locale: 'zh-cn',
+            format: format,
+            // debug: true,
+            showTodayButton: true,
+            allowInputToggle: true,
+            // keepInvalid: true,
+            dayViewHeaderFormat: 'YYYY 年 MM 月',
+            toolbarPlacement: 'bottom',
+            showClear: !el.required,
+            icons: {
+                time: 'ion-ios-time-outline',
+                date: 'ion-ios-calendar-outline',
+                up: 'ion-ios-arrow-up',
+                down: 'ion-ios-arrow-down',
+                previous: 'ion-ios-arrow-left',
+                next: 'ion-ios-arrow-right',
+                today: 'ion-pinpoint',
+                clear: 'ion-ios-trash-outline',
+                close: 'ion-ios-close-empty',
+            },
+        }, binding.value || {}));
+        // setTimeout(() => {
+        //     console.log(el.value);
+        //     $(el).data("DateTimePicker").date(el.value);
+        // }, 100);
+    },
+});
+// select2
+Vue.directive('select', {
+    inserted: (el, binding) => {
+        let selected = el.dataset.selected || '';
+        $('option:not([value])', el).attr('value', '');
+        $(el).val(selected)
+            .select2(Object.assign({}, {
+                // placeholder: placeholder,
+                // allowClear: el.required ? false : true,
+                maximumInputLength: 10,
+                minimumResultsForSearch: 8,
+                width: el.multiple ? '100%' : $(el).outerWidth() + 20,
+                language: 'zh-CN',
+            }, binding.value || {}));
+    },
+});
+// ajax form 在表格里快速更新数据
+Vue.directive('ajax-form', {
+    bind: (el, binding) => {
+        $(el).on('submit', e => {
+            e.preventDefault();
+            // let data = serializer(e.target);
+            let data = new FormData(e.target);
+            axios.post(e.target.action, data).then(res => {
+                $('.form-group', el).removeClass('has-error');
+                if (res.data.code > 0) {
+                    bootbox.alert({
+                        message: res.data.message,
+                        callback: () => {
+                            if (res.data.redirect_url) {
+                                location.href = res.data.redirect_url;
+                            } else {
+                                location.reload();
+                            }
+                        },
+                    });
+                } else if (res.data.code === -422) {
+                    if (res.data.data !== null && res.data.toString() === '[object Object]') {
+                        let firstError;
+                        firstError = Object.keys(res.data.data)[0];
+                        Object.keys(res.data.data).forEach(item => {
+                            let field = $(`[name=${item}]`, el);
+                            let group = field.closest('.form-group').addClass('has-error').find('ul').empty();
+                            res.data.data[item].forEach(error => {
+                                group.append(`<li>${error}</li>`);
+                            });
+                        });
+                        $(`[name=${firstError}]`, el).trigger('focus');
+                    } else {
+                        bootbox.alert(res.data.message);
+                    }
+                } else {
+                    bootbox.alert(res.data.message);
+                }
+            });
+        });
+    },
+});
+// ajax-edit
+Vue.directive('ajax-edit', {
+    inserted: (el, binding) => {
+        let elLink = document.createElement('a');
+        Object.keys(el.dataset).forEach((item, index) => {
+            elLink.dataset[item] = el.dataset[item];
+            el.removeAttribute('data-' + item);
+        });
+        $(el).wrapInner(elLink).children('a').editable({
+            ajaxOptions: {
+                type: 'PATCH',
+            },
+            type: 'select',
+            source() {
+                return $.query.parseNew(this.dataset.select).keys;
+            },
+            title() {
+                return $(this).closest('td').data('title');
+            },
+            url(params) {
+                let data = {};
+                data[params.name] = params.value;
+                data['id'] = params.pk;
+                let url = location.origin + location.pathname + '/' + data['id'];
+                return axios.patch(url, data);
+            },
+            success(res, newValue) {
+                if (res.data.code > 0) {
+                    $.notify(res.data.message, {
+                        type: 'success',
+                    });
+                } else {
+                    bootbox.alert(res.data.message);
+                }
+            },
         });
     },
 });
 
+Vue.component('lf-datepicker', datepicker);
+Vue.component('lf-options', options);
+
+import regenUrl from './filters/regen-url';
+Vue.filter('regenUrl', regenUrl);
 window.app = new Vue({
     el: '#app',
     data: {
-        list: {
-            columns: [],
+        menu: {
+            collapsed: false,
             data: [],
-            pageSize: 10,
-            total: 0,
         },
+        modal: {
+            title: '加载中...',
+            visible: false,
+            url: 'about:blank',
+        },
+        body: $('body'),
     },
     methods: {
-        listData(params) {
-            return new Promise(resolve => {
-                console.log(this.list.total);
-                resolve({
-                    total: this.list.total,
-                    results: this.list.data,
+        loading(opt) {
+            this.body.loading(opt);
+        },
+        hideLoading() {
+            this.body.loading('stop');
+        },
+    },
+    mounted() {
+        $('.table').find('thead th').each(function() {
+            if (!$(this).closest('table')[0].column) {
+                $(this).closest('table')[0].column = [];
+            }
+            $(this).closest('table')[0].column.push($(this).text().trim());
+        }).end().find('tbody th, tbody td').each(function() {
+            this.dataset.title = $(this).closest('table')[0].column[$(this).index()];
+        });
+        $('thead th[data-sort-field]').each(function() {
+            let that = this;
+            this.setAttribute('role', 'sortcolumn');
+            if (that.dataset.sortField === $.query.get('sort_field')) {
+                this.dataset.sortBy = $.query.get('sort_by');
+            }
+            this.addEventListener('click', (e) => {
+                that.dataset.sortBy = that.dataset.sortBy === 'desc' ? 'asc' : 'desc';
+                $(this).closest('table').loading({
+                    message: '数据加载中...',
                 });
+                $.query.REMOVE('page');
+                $.query.SET('sort_field', that.dataset.sortField);
+                $.query.SET('sort_by', that.dataset.sortBy);
+                location.href = location.pathname + $.query.toString();
             });
-        },
-        pageChange(page) {
-            let query = queryString.parse(location.search);
-            query.page = page;
-            location.href = location.pathname + '?' + queryString.stringify(query);
-        },
-        pageShowTotal(total, pages) {
-            return `1-${pages} 全部 ${total} 条`;
-        }
+        });
+        // 如果 url hash 中有值，将该值存储于 sessionStorage 中，用于新窗口打开菜单链接后初始化选中
+        $('.table-footer').on('change', '[name=action]', function(e) {
+            let form = $(this).closest('form');
+            let ids = [];
+            $('input:checkbox[name="id[]"]:checked', form).each(function() {
+                ids.push(this.value);
+            });
+            if (ids.length === 0) {
+                bootbox.alert({
+                    title: '提示',
+                    message: '请选择操作对象！',
+                    callback: () => {
+                        $(this).val('');
+                    },
+                });
+                return false;
+            }
+            switch ($(this).val()) {
+                case '':
+                    return false;
+                case 'delete':
+                    bootbox.confirm({
+                        title: '操作确认',
+                        message: '确认要删除吗？',
+                        buttons: {
+                            confirm: {
+                                className: 'btn-primary btn-danger'
+                            },
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                let url = location.pathname + '/' + ids.join(',') + $.query.toString();
+                                var ajaxForm = $('<form>', {
+                                    'method': 'POST',
+                                    'action': url,
+                                });
+                                ajaxForm.append($('<input>', {
+                                    'type': 'hidden',
+                                    'name': '_token',
+                                    'value': $('meta[name="csrf-token"]').attr('content') || ''
+                                }));
+                                ajaxForm.append($('<input>', {
+                                    'name': '_method',
+                                    'type': 'hidden',
+                                    'value': 'delete',
+                                }));
+                                ajaxForm.appendTo('body').submit();
+                            } else {
+                                $(e.target).val('');
+                            }
+                        },
+                    });
+                    break;
+                default:
+                    form.attr('action', location.pathname + '/' + $(this).val() + $.query.toString());
+                    form.submit();
+                    break;
+            }
+        });
     },
-    beforeCreate() {
-        let arr = location.href.split('/');
-        arr.splice(4, 0, '#');
-        arr.splice(0, 4);
-        window.top.history.replaceState('', '', arr.join('/')); // 不用 location 是为了浏览器返回正常处理
-    },
+});
+$(function() {
+    // 选中当前菜单项
+    if (location.hash) {
+        sessionStorage.setItem('menu-current', location.hash.substring(1));
+    }
+    $('#sidebar').on('click', 'dl.menu-item > dt', function(e) {
+        let dl = $(this).parent();
+        dl.toggleClass('menu-open');
+        e.preventDefault();
+    }).on('click', 'nav a[href]', function(e) {
+        sessionStorage.setItem('menu-current', this.href);
+        // 侧边栏链接点击后会在 url hash 中附上链接地址
+        this.href = this.href.replace(this.hash, '') + '#' + this.href.replace(this.hash, '');
+    }).find(`a[href="${sessionStorage.getItem('menu-current')}"]`).addClass('selected');
+
+    $('.selected').parents('.menu-item').addClass('menu-open');
 });
 // document.querySelector('#sidebar .ant-menu-root').querySelector('a')
