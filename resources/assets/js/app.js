@@ -63,7 +63,7 @@ Vue.directive('confirm', {
             e.preventDefault();
             bootbox.confirm({
                 title: '操作确认',
-                message: (binding.value && binding.value.title) || '确认要删除吗？',
+                message: (binding.value && binding.value.title) || '确认要操作吗？',
                 callback: function(result) {
                     if (!result) return;
                     if (el.tagName === 'FORM') {
@@ -81,10 +81,10 @@ Vue.directive('confirm', {
                                 $.notify(res.data.message, {
                                     type: 'success',
                                 });
-                                // 若data-callback指定了回调函数
-                                if (el.dataset.callback && el.dataset.callback in window) {
-                                    window[el.dataset.callback].call(el);
-                                }
+                            }
+                            // 若 callback 指定了回调函数
+                            if (binding.value && binding.value.callback in window) {
+                                window[binding.value.callback].call(el, res.data);
                             }
                         });
                     } else {
@@ -178,7 +178,7 @@ Vue.directive('check-all', {
         });
     },
 });
-// tooltip 全选
+// tooltip
 Vue.directive('tooltip', {
     bind: (el, binding) => {
         $(el).tooltip(Object.assign({}, {
@@ -244,7 +244,7 @@ Vue.directive('select', {
             }, binding.value || {}));
     },
 });
-// ajax form 在表格里快速更新数据
+// ajax form
 Vue.directive('ajax-form', {
     bind: (el, binding) => {
         $(el).on('submit', e => {
@@ -286,7 +286,7 @@ Vue.directive('ajax-form', {
         });
     },
 });
-// ajax-edit
+// ajax-edit 在表格里快速更新数据
 Vue.directive('ajax-edit', {
     inserted: (el, binding) => {
         let elLink = document.createElement('a');
@@ -300,7 +300,7 @@ Vue.directive('ajax-edit', {
             },
             type: 'select',
             source() {
-                return $.query.parseNew(this.dataset.select).keys;
+                return $.query.parseNew(this.dataset.options).keys;
             },
             title() {
                 return $(this).closest('td').data('title');

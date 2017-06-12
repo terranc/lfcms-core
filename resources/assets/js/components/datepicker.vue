@@ -11,14 +11,14 @@
 <!--
 name: 时间选择器
 attributes:
-    fist-name: 开始时间控件 name（必填）
+    first-name: 开始时间控件 name（必填）
     second-name: 结束时间控件 name
     first-value: 开始时间默认值
-    end-value: 结束时间默认值
+    second-value: 结束时间默认值
     format: 格式，默认：YYYY-MM-DD
     required: 是否必填
     first-option: 开始时间配置
-    end-option: 开始时间配置
+    second-option: 开始时间配置
 -->
 <script>
     export default {

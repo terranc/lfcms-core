@@ -118,10 +118,10 @@ Blade:
 #### 日期/时间选择器（可选择区间）
 支持多种形式的`DatePicker`、`DateTimePicker`，且支持区间范围选择。
 
-<img src="images/datetimepicker.png" />
-<img src="images/datetimepicker2.png" />
+<img src="http://terran.cc/lfcms-template/images/datetimepicker.png" />
+<img src="http://terran.cc/lfcms-template/images/datetimepicker2.png" />
 
-<img src="images/datetimepicker_range.png" />
+<img src="http://terran.cc/lfcms-template/images/datetimepicker_range.png" />
 
 - `format`: 时间格式，默认：`YYYY-MM-DD`，若指定时分秒（`YYYY-MM-DD HH:mm:ss`）控件将出现时间选择器
 - `first-name`: `required` (开始)日期/时间的表单 name
@@ -253,7 +253,7 @@ demo:
 ```
 
 #### v-tooltip
-<img src="images/tips.png" />
+<img src="http://terran.cc/lfcms-template/images/tips.png" />
 
 demo:
 ```html

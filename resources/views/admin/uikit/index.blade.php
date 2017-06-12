@@ -134,7 +134,7 @@ UI Kit=
                 <td data-type="text" data-name="name" data-pk="{{ $user->id }}" v-ajax-edit>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->created_at->format('Y-m-d H:i') }}</td>
-                <td data-value="{{ $user->status }}" data-name="status" data-pk="{{ $user->id }}" data-select="{{ http_build_query($user->status_arr) }}" v-ajax-edit>{{ $user->status_text }}</td>
+                <td data-value="{{ $user->status }}" data-name="status" data-pk="{{ $user->id }}" data-options="{{ http_build_query($user->status_arr) }}" v-ajax-edit>{{ $user->status_text }}</td>
                 <td>
                     <a href="{{ route('uikit.edit', $user->id) }}">编辑</a>
                     <a href="{{ route('uikit.destroy', $user->id) }}" v-delete>删除</a>
