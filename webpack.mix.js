@@ -45,10 +45,8 @@ mix.webpackConfig({
     }
 })
         .js('resources/assets/js/app.js', 'public/js').extract([
-            'jquery',
             'bootstrap-notify',
             'jquery-query-object',
-            'bootstrap-editable',
             'jquery-easy-loading/dist/jquery.loading',
             'select2/dist/js/select2',
             'select2/dist/js/i18n/zh-CN',

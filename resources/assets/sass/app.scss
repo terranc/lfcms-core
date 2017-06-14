@@ -480,7 +480,61 @@ body {
   > header {
     //box-shadow: 0 0 10px rgba(0, 0, 0, .25);
     margin: 20px 0;
-    min-height: 60px;
+    //min-height: 60px;
+    @include clearfix;
+    .console {
+      color: $white;
+      float: right;
+      padding: 5px 0;
+      font-size: 14px;
+      .icon {
+        font-size: 20px;
+        color: $white;
+        vertical-align: middle;
+        position: relative;
+        &:before {
+          vertical-align: middle;
+        }
+        .badge {
+          margin-left: 5px;
+          background-color: $red;
+          position: absolute;
+          top: -0.4em;
+          right: -1.10em;
+          padding: 2px 5px;
+          font-weight: 200;
+          font-size: 0.45em;
+        }
+
+        &.ion-ios-person-outline {
+          font-size: 22px;
+        }
+        &.ion-ios-bell-outline,
+        &.ion-ios-person-outline {
+          &:before {
+            font-weight: 600;
+          }
+        }
+      }
+      > a {
+        color: $white;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 5px;
+
+        &:visited,
+        &:focus,
+        &:hover {
+          text-decoration: none;
+          opacity: 0.8;
+        }
+      }
+      > span {
+        margin: 0 5px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
   }
   > .content {
     border-radius: 12px;

@@ -43,7 +43,11 @@
         </aside>
         <div id="main">
             <header>
-            
+                <div class="console">
+                    <a href=""><span class="icon ion-ios-bell-outline"><span class="badge">42</span></span></a>
+                    <a href=""><span class="icon ion-ios-person-outline"></span> 特伦C</a>
+                    <a href="" v-confirm="{ title: '确认要退出吗？' }" title="退出"><span class="icon ion-log-out"></span></a>
+                </div>
             </header>
             <div class="content">
                 @component('admin.components.breadcrumb')

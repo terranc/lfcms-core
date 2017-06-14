@@ -10520,7 +10520,70 @@ body {
 
 #main > header {
   margin: 20px 0;
-  min-height: 60px;
+}
+
+#main > header:before, #main > header:after {
+  content: " ";
+  display: table;
+}
+
+#main > header:after {
+  clear: both;
+}
+
+#main > header .console {
+  color: #fff;
+  float: right;
+  padding: 5px 0;
+  font-size: 14px;
+}
+
+#main > header .console .icon {
+  font-size: 20px;
+  color: #fff;
+  vertical-align: middle;
+  position: relative;
+}
+
+#main > header .console .icon:before {
+  vertical-align: middle;
+}
+
+#main > header .console .icon .badge {
+  margin-left: 5px;
+  background-color: #d9534f;
+  position: absolute;
+  top: -0.4em;
+  right: -1.10em;
+  padding: 2px 5px;
+  font-weight: 200;
+  font-size: 0.45em;
+}
+
+#main > header .console .icon.ion-ios-person-outline {
+  font-size: 22px;
+}
+
+#main > header .console .icon.ion-ios-bell-outline:before, #main > header .console .icon.ion-ios-person-outline:before {
+  font-weight: 600;
+}
+
+#main > header .console > a {
+  color: #fff;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+
+#main > header .console > a:visited, #main > header .console > a:focus, #main > header .console > a:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+#main > header .console > span {
+  margin: 0 5px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 #main > .content {
