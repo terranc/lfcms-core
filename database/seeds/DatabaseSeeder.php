@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         factory(\App\Models\User::class, 50)->create();
         factory(\App\Models\Tag::class, 10)->create();
         factory(\App\Models\Category::class, 5)->create();
+        factory(\App\Models\DocumentModel::class, 1)->create();
         factory(\App\Models\Document::class, 50)->create()->each(function($document) {
             $document->post()->save(factory(\App\Models\Post::class)->make(['id' => $document->id]));
 //            $document->post()->tag()->save(factory(\App\Models\Tag::class)->make(['object_id' => $document->id]));

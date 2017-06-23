@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsTable extends Migration
+class CreateDocumentPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('document_posts', function (Blueprint $table) {
             $table->unsignedInteger('id')->default('0');
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->timestamp('top_at')->nullable()->default(null)->comment('置顶时间,NULL时表示非置顶');
             $table->timestamps();
 
@@ -32,6 +32,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('document_posts');
     }
 }

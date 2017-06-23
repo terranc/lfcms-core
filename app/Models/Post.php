@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\AssociateCreateTrait;
+use App\Traits\AssociateSaveTrait;
 
 class Post extends Base
 {
-    use AssociateCreateTrait;
+    use AssociateSaveTrait;
 
     protected $primaryKey = 'id';
+    protected $table = 'document_posts';
     public $incrementing = false;
 
     protected $dates = [

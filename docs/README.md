@@ -1,8 +1,14 @@
 # LFCMS-template
 
+## 规范
+
 ## 快速入门
 
 ## 配置
+
+## Traits
+
+## Helpers
 
 ## 组件
 

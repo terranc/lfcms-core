@@ -9,13 +9,17 @@ namespace App\Traits;
  */
 trait ScopePositionTrait {
 
+    /**
+     * 查询推荐位的数据
+     * @param $query 支持多种传参方式， 如：
+    //      ->position(1,2,4,6)
+    //      ->position([1,2,4,6])
+    //      ->position('home', 'list')
+    //      ->position(['home', 'list'])
+     * @param $position
+     */
     public static function scopePosition($query, $position)
     {
-        // 支持多种传参方式， 如：
-        //      ->position(1,2,4,6)
-        //      ->position([1,2,4,6])
-        //      ->position('home', 'list')
-        //      ->position(['home', 'list'])
         if (!is_array($position)) {
             $position = array_slice(func_get_args(), 1);
         }
@@ -27,6 +31,12 @@ trait ScopePositionTrait {
     }
 
 
+    /**
+     * 获取推荐位数组
+     * @param $value
+     *
+     * @return mixed
+     */
     public function getPositionAttribute($value)
     {
         return json_decode($value, true);
@@ -34,8 +44,7 @@ trait ScopePositionTrait {
 
 
     /**
-     *
-     *
+     * 设置推荐位
      * @param array $value 如：['home', 'list']、[1,3,4,5]
      */
     public function setPositionAttribute($value = [])

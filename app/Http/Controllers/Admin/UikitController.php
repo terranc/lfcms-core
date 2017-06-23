@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\Category;
 use App\Models\Document;
+use App\Models\DocumentModel;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Taggable;
 use App\Models\User;
 use App\Models\UserData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UikitController extends Controller
 {
