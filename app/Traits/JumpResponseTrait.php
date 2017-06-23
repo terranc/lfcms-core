@@ -1,12 +1,12 @@
 <?php
-/**
- * Author: Lookfeel
- * Homepage: http://lookfeel.co
- * Date: 16/8/24
- * Time: 09:56
- */
+
 namespace App\Traits;
 
+/**
+ * Trait JumpResponseTrait
+ *
+ * @package App\Traits
+ */
 trait JumpResponseTrait {
 
     /**

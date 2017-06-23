@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', $user ? '修改『' . $user->name . '』' : '添加')
+@section('title', $user ? '修改『' . $user->nickname . '』' : '添加')
 
 @section('nav-map')
     用户=
@@ -7,8 +7,11 @@
 @endsection
 @section('content')
     @component('admin.components.form-table', ['data'=>$user, 'model'=>'uikit', 'class'=>'custom-form-class'])
-        @component('admin.components.form-item', ['label'=>'名字'])
-            <input type="text" class="form-control" name="name" value="{{ $user->name }}">
+        @component('admin.components.form-item', ['label'=>'用户名'])
+            <input type="text" class="form-control" name="username" value="{{ $user->username }}">
+        @endcomponent
+        @component('admin.components.form-item', ['label'=>'昵称'])
+            <input type="text" class="form-control" name="nickname" value="{{ $user->nickname }}">
         @endcomponent
         @component('admin.components.form-item', ['label'=>'邮箱'])
             <input type="text" class="form-control" size="40" name="email" value="{{ $user->email }}">
@@ -20,7 +23,7 @@
             <input type="password" class="form-control" name="password_confirmation" placeholder="再次确认密码">
         @endcomponent
         @component('admin.components.form-item', ['label'=>'生日'])
-            <input type="text" class="form-control" name="birthday" value="{{ $user->birthday }}" v-datepicker>
+            <input type="text" class="form-control" name="datas.birthday" value="{{ $user->datas->birthday }}" v-datepicker>
         @endcomponent
         @component('admin.components.form-item', ['label'=>'开卡时间'])
             <input type="text" class="form-control" name="open_card_time" value="{{ $user->open_card_time }}" data-format="YYYY-MM-DD HH:mm:ss" v-datepicker>

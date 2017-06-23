@@ -268,3 +268,66 @@ function mkdirs($dir, $mode = 0777) {
 function md5_16($str) {
     return substr(md5($str), 8, 16);
 }
+
+
+
+// 分析枚举类型配置值 格式 a:名称1,b:名称2
+function parse_config_attr($string) {
+    $array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
+    if (strpos($string, ':')) {
+        $value = array();
+        foreach ($array as $val) {
+            list($k, $v) = explode(':', $val);
+            $v = explode('|', $v);
+            if(count($v) > 1){
+                $value[$k] = array_map(function($item){
+                    return trim($item);
+                }, $v);
+            }else{
+                $value[$k]   = trim($v[0]);
+            }
+        }
+    } else {
+        $value = $array;
+    }
+    return $value;
+}
+
+// 分析枚举类型字段值 格式 a:名称1,b:名称2
+function parse_config($string) {
+    $string = trim($string);
+    if (0 === strpos($string, ':')) {
+        // 采用函数定义
+        return eval('return ' . substr($string, 1) . ';');
+    } elseif (0 === strpos($string, '[config.')) {
+        // 支持读取配置参数（必须是数组类型）
+        return config(substr($string, 8, -1));
+    }
+
+    $array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
+    if (strpos($string, ':')) {
+        $value = array();
+        foreach ($array as $val) {
+            list($k, $v) = explode(':', $val);
+            $v = explode('|', $v);
+            if(count($v) > 1){
+                $value[$k] = array_map(function($item){
+                    return trim($item);
+                }, $v);
+            }else{
+                $value[$k]   = trim($v[0]);
+            }
+        }
+    } else {
+        $value = $array;
+    }
+    return $value;
+}
+// 还原配置
+function revert_config($arr=array()) {
+    $str = '';
+    foreach ($arr as $k => $v) {
+        $str .= $k . ':' . $v . "\n";
+    }
+    return trim($str);
+}

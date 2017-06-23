@@ -64,7 +64,7 @@ Vue.directive('confirm', {
             bootbox.confirm({
                 title: '操作确认',
                 message: (binding.value && binding.value.title) || '确认要操作吗？',
-                callback: function(result) {
+                callback(result) {
                     if (!result) return;
                     if (el.tagName === 'FORM') {
                         return axios.request({

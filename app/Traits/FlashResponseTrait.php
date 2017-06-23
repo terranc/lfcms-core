@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: KEL
- * Date: 2016/8/22
- * Time: 18:41
- */
 
 namespace App\Traits;
 
 
 /**
- * Class JsonResponseTrait
+ * Class FlashResponseTrait
  * @package App\Traits
  */
 trait FlashResponseTrait {

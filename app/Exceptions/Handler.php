@@ -59,8 +59,33 @@ class Handler extends ExceptionHandler
                 $request->input()
             )->withErrors($errors);
         }
-
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Prepare response containing exception render.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function prepareResponse($request, Exception $exception)
+    {
+        if ($exception instanceof ValidationException) {
+            $errors = $exception->validator->errors()->getMessages();
+
+            if ($request->expectsJson()) {
+                return $this->apiResponse(-422, '数据验证错误', $errors);
+            }
+
+            return redirect()->back()->withInput(
+                $request->input()
+            )->withErrors($errors);
+        }
+//        if ($request->expectsJson()) {
+//            return $this->renderAPIsException($request, $exception);
+//        }
+        return parent::prepareResponse($request, $exception);
     }
     /**
      * Convert an authentication exception into an unauthenticated response.
@@ -76,5 +101,9 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest(route('login'));
+    }
+
+    protected function renderAPIsException($request, Exception $exception) {
+
     }
 }

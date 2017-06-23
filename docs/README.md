@@ -9,7 +9,7 @@
 ### Laravel 组件
 
 #### 面包屑
-**breadcrumb** 组件已在 `app.blade.php` 装载，且每个继承 `app.blade.php` 的页面会自动将当前页面 `<title />` 的内容作为最后一个节点。你只需在页面中插入如下代码，配置中间节点即可（采用`.ini`格式）：
+**breadcrumb** 组件已在 `app.blade.php` 装载，且每个继承 `app.blade.php` 的页面会自动将当前页面 `<title />` 的内容作为最后一个节点。你只需在页面中插入如下代码，配置中间节点即可（采用`.ini`格式，将用`parse_ini_string`解析）：
 
 ```html
 <head>

@@ -131,7 +131,7 @@ UI Kit=
                 <th class="checkbox-col" data-sort="{{ $user->id }}">
                     <input type="checkbox" name="id[]" value="{{ $user->id }}">
                 </th>
-                <td data-type="text" data-name="name" data-pk="{{ $user->id }}" v-ajax-edit>{{ $user->name }}</td>
+                <td data-type="text" data-name="name" data-pk="{{ $user->id }}" v-ajax-edit>{{ $user->username }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->created_at->format('Y-m-d H:i') }}</td>
                 <td data-value="{{ $user->status }}" data-name="status" data-pk="{{ $user->id }}" data-options="{{ http_build_query($user->status_arr) }}" v-ajax-edit>{{ $user->status_text }}</td>

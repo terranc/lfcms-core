@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: KEL
- * Date: 2016/8/22
- * Time: 18:41
- */
 
 namespace App\Traits;
 use Illuminate\Support\Facades\Request;
