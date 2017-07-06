@@ -1,14 +1,16 @@
 # LFCMS-template
 
-## 规范
+## 开发规范
 
 ## 快速入门
 
 ## 配置
 
-## Traits
+## 工具
 
-## Helpers
+### Traits
+
+### Helpers
 
 ## 组件
 
@@ -79,6 +81,9 @@ Blade:
 
 ##### 表单项
 为了方便、快速、统一的创建表单项，同时又不失原生 form 表单的灵活性、兼容性。
+- `label`: Label 文案
+- `class`: 附加 label class，默认：``，可选值: `top`*（建议：为提升 label 的浏览体验，常用于 `textarea` 等多行表单控件的时候）*
+
 ```blade
 @component('admin.components.form-item', ['label'=>'名字'])
     ...
@@ -116,9 +121,9 @@ Blade:
 <!-- source 支持 array -->
 <lf-options name="status" value="{{ $user->status }}" :source="['禁用', '启用']"></lf-options>
 <!-- type 可指定 checkbox / select / radio 三种表现形式 -->
-<lf-options name="status" type="checkbox" value="{{ $user->status }}" :source="{ 0: '禁用', 1: '启用' }"></lf-options>
+<lf-options name="status" type="checkbox" value="{{ $user->status }}" :source="['禁用', '启用']"></lf-options>
 <!-- 当 type 未指定时，source 节点个数小于 2 个将默认 radio，否则默认 checkbox -->
-<lf-options name="category_id" value="{{ $user->type }}" :source="{ 1: '春天', 2: '夏天', 3: '秋天', 4: '冬天' }"></lf-options>
+<lf-options name="category_id" value="{{ $user->type }}" :source="{ 'spring': '春天', 'summer': '夏天', 'autumn': '秋天', 'winter': '冬天' }"></lf-options>
 ```
 
 #### 日期/时间选择器（可选择区间）
@@ -238,7 +243,7 @@ demo:
 表格里快速更新数据，基于 **x-editable**
 
 dataset:
-- `type`: 编辑类型，默认: `select`
+- `type`: 编辑类型，默认: `text`，若设置了`v-options`则默认为`select`
 - `name`: 控件`name`
 - `pk`: 主键值
 - `options`: 选项值，query 形式，可借助`http_build_query`，如：`data-options="{{ http_build_query($arr) }}"`

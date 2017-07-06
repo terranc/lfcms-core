@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->enum('type', ['admin', 'member'])->default('member')->comment('用户类型');
+            $table->enum('type', ['admin', 'user'])->default('user')->comment('用户类型');
             $table->string('username', 150)->unique()->nullable()->default(null)->comment('用户名');
             $table->string('nickname', 50)->nullable()->default(null)->comment('昵称');
             $table->string('email', 150)->nullable()->default(null)->comment('邮箱');

@@ -13,6 +13,7 @@ require('jquery-easy-loading/dist/jquery.loading');
 require('select2/dist/js/select2');
 require('select2/dist/js/i18n/zh-CN');
 require('eonasdan-bootstrap-datetimepicker');
+require('bootstrap-add-clear');
 require('x-editable/dist/bootstrap3-editable/js/bootstrap-editable');
 $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-sm editable-submit">保存</button>';
 $.fn.select2.defaults.set('theme', 'bootstrap');
@@ -298,7 +299,7 @@ Vue.directive('ajax-edit', {
             ajaxOptions: {
                 type: 'PATCH',
             },
-            type: 'select',
+            type: elLink.dataset.options ? 'select' : 'text',
             source() {
                 return $.query.parseNew(this.dataset.options).keys;
             },
@@ -318,7 +319,8 @@ Vue.directive('ajax-edit', {
                         type: 'success',
                     });
                 } else {
-                    bootbox.alert(res.data.message);
+                    bootbox.alert(res.data.data[elLink.dataset.name][0]);
+                    return false;
                 }
             },
         });
@@ -337,12 +339,14 @@ window.app = new Vue({
             collapsed: false,
             data: [],
         },
+        window: window,
         modal: {
             title: '加载中...',
             visible: false,
             url: 'about:blank',
         },
         body: $('body'),
+        page: {},
     },
     methods: {
         loading(opt) {
@@ -432,7 +436,7 @@ window.app = new Vue({
                     });
                     break;
                 default:
-                    form.attr('action', location.pathname + '/' + $(this).val() + $.query.toString());
+                    form.attr('action', location.pathname + '/' + ids.join(',') + '/' + $(this).val());
                     form.submit();
                     break;
             }
@@ -455,5 +459,10 @@ $(function() {
     }).find(`a[href="${sessionStorage.getItem('menu-current')}"]`).addClass('selected');
 
     $('.selected').parents('.menu-item').addClass('menu-open');
+    // 需要一键清空的 input 添加 data-clear
+    $('input[data-clear]').addClear({
+        closeSymbol: '✖',
+        symbolClass: '',
+    });
 });
 // document.querySelector('#sidebar .ant-menu-root').querySelector('a')

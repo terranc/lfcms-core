@@ -16,7 +16,7 @@ class CreateUserDatasTable extends Migration
         Schema::create('user_datas', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->unsignedInteger('user_id')->comment('用户id');
-            $table->tinyInteger('gender')->default('0')->comment('性别；0：保密；1：男；2：女');
+            $table->enum('gender', ['男', '女'])->nullable()->default(null)->comment('性别；null：保密；');
             $table->string('description', 255)->nullable()->comment('介绍');
             $table->date('birthday')->nullable()->comment('生日');
             $table->unsignedInteger('score')->default('0')->comment('积分');
@@ -39,6 +39,9 @@ class CreateUserDatasTable extends Migration
      */
     public function down()
     {
+        Schema::table('user_datas', function (Blueprint $table){
+            $table->dropForeign('user_datas_user_id_foreign');
+        });
         Schema::dropIfExists('user_datas');
     }
 }

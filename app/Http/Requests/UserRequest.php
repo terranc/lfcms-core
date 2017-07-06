@@ -25,14 +25,16 @@ class UserRequest extends FormRequest
     {
         if ($this->id) {
             return [
-                'name' => 'sometimes|required|max:20',
-                'email' => 'email|unique:users,email,' . $this->id,
+                'username' => 'sometimes|alpha_dash|required|max:20',
+                'nickname' => 'sometimes|required|max:20',
+                'email' => 'sometimes|required|email|unique:users,email,' . $this->id,
                 'password' => 'nullable|min:6|max:20|confirmed',
                 'password_confirmation' => 'required_with:password',
             ];
         } else {
             return [
-                'name' => 'required|max:20',
+                'username' => 'required|alpha_dash|max:20',
+                'nickname' => 'required|max:20',
                 'email' => 'required|unique:users,email|email',
                 'password' => 'required|min:6|max:20|confirmed',
                 'password_confirmation' => 'required_with:password',

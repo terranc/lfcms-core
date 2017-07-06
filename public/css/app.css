@@ -7680,6 +7680,15 @@ button.close {
   vertical-align: middle;
 }
 
+.form-control.number {
+  width: 5em;
+}
+
+.form-control.price {
+  width: 7em;
+  text-align: right;
+}
+
 select.form-control {
   padding-left: 10px;
   padding-right: 10px;
@@ -7691,6 +7700,10 @@ select.form-control {
 .form-control[type=email],
 .form-control[type=tel] {
   min-width: 14em;
+}
+
+.form-control[type=number] {
+  width: 5em;
 }
 
 .pagination .page-item.disabled .page-link,
@@ -7808,6 +7821,10 @@ table.table .checkbox-col {
 .checkbox-inline label {
   font-weight: 400;
   margin-bottom: 0;
+}
+
+.modal {
+  z-index: 1061;
 }
 
 .animated {
@@ -9980,7 +9997,7 @@ a.editable-click.editable-disabled:hover {
   display: inline-block;
 }
 
-.filter-box dl dd > a.item:hover {
+.filter-box dl dd > a.item:focus, .filter-box dl dd > a.item:hover {
   color: #fff;
   background-color: #4582EC;
   border-color: #4582EC;
@@ -10607,6 +10624,15 @@ body {
   font-weight: inherit;
 }
 
+.form-table .form-group .col-form-label.top {
+  vertical-align: top;
+  padding-top: 10px;
+}
+
+.form-table .form-group .col-form-control {
+  width: 100%;
+}
+
 .form-table .form-group .col-form-control .help-block {
   display: none;
   margin-bottom: 0;
@@ -10675,4 +10701,28 @@ body {
     width: 100%;
     min-height: 70px;
   }
+}
+
+.CodeMirror.CodeMirror-wrap {
+  border: 1px solid #DBE2E8;
+}
+
+.CodeMirror .CodeMirror-placeholder {
+  color: #AEAEAE;
+  font-weight: 100;
+}
+
+blockquote.readme {
+  font-size: inherit;
+  color: #AEAEAE;
+  background-color: #f7f7f9;
+  font-weight: 200;
+}
+
+blockquote.readme pre {
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  font-weight: 200;
+  font-family: 'monospace';
 }

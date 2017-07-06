@@ -33,6 +33,7 @@
 [data-notify=container] {
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
 }
+
 .editableform-loading {
   background-image: none;
   &:after {
@@ -41,6 +42,7 @@
     text-align: center;
   }
 }
+
 // 筛选器
 .filter-box {
   padding: 0 0 $line-height-computed;
@@ -82,6 +84,7 @@
         border-radius: $border-radius-base;
         display: inline-block;
 
+        &:focus,
         &:hover {
           color: #fff;
           background-color: $primary-color;
@@ -571,8 +574,15 @@ body {
     }
     .col-form-label {
       font-weight: inherit;
+
+      &.top {
+        vertical-align: top;
+        padding-top: 10px;
+      }
     }
     .col-form-control {
+      width: 100%;
+
       .help-block {
         display: none;
         margin-bottom: 0;
@@ -641,5 +651,28 @@ body {
         }
       }
     }
+  }
+}
+.CodeMirror {
+  &.CodeMirror-wrap {
+    border: 1px solid $line-grey-color;
+  }
+  .CodeMirror-placeholder {
+    color: $light-grey-color;
+    font-weight: 100;
+  }
+}
+blockquote.readme {
+  font-size: inherit;
+  color: $light-grey-color;
+  background-color: $gray-lightest;
+  font-weight: 200;
+
+  pre {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    font-weight: 200;
+    font-family: 'monospace';
   }
 }

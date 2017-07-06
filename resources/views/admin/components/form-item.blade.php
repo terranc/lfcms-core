@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label class="col-form-label">{{ $label }}</label>
+    <label class="col-form-label {{ $class }}">{{ $label }}</label>
     <div class="col-form-control">
         {{ $slot }}
         <div class="help-block">

@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
         \App\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\LoadConfig::class,
     ];
 
     /**
@@ -42,7 +43,6 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
 //            \App\Http\Middleware\VerifyCsrfToken::class,
         ],
-
         'api' => [
             'throttle:60,1',
             'bindings',

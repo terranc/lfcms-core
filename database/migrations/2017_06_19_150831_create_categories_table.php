@@ -26,6 +26,7 @@ class CreateCategoriesTable extends Migration
             $table->tinyInteger('is_display')->default('0')->comment('前台是否显示');
             $table->tinyInteger('is_comment')->default('0')->comment('是否允许评论');
             $table->tinyInteger('is_check')->default('0')->comment('是否需要审核');
+            $table->unsignedTinyInteger('is_system')->default('0')->comment('是否系统类别，不能删除');
             $table->string('list_tpl', 50)->nullable()->default(null)->comment('列表模板');
             $table->string('show_tpl', 50)->nullable()->default(null)->comment('详情模板');
             $table->json('meta')->nullable()->comment('更多配置JSON');

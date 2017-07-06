@@ -99,7 +99,7 @@ UI Kit=
         </div>
         <form method="get" action="{{ regenUrl(['keyword_field', 'keyword_value'], null) }}" class="search-form">
             <div class="input-group">
-                <input type='text' class="form-control" name="keyword_value" value="" size="35" placeholder="请输入关键词..." />
+                <input type='text' class="form-control" data-clear name="keyword_value" value="{{ $keyword_value }}" size="35" placeholder="请输入关键词..." />
                 <span class="input-group-btn">
                     <input type="hidden" name="keyword_field" value="">
                     <button class="btn btn-default" type="submit">
@@ -126,18 +126,18 @@ UI Kit=
             </tr>
             </thead>
             <tbody>
-            @foreach($users as $user)
+            @foreach($lists as $item)
             <tr>
-                <th class="checkbox-col" data-sort="{{ $user->id }}">
-                    <input type="checkbox" name="id[]" value="{{ $user->id }}">
+                <th class="checkbox-col" data-sort="{{ $item->id }}">
+                    <input type="checkbox" name="id[]" value="{{ $item->id }}">
                 </th>
-                <td data-type="text" data-name="name" data-pk="{{ $user->id }}" v-ajax-edit>{{ $user->username }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->created_at->format('Y-m-d H:i') }}</td>
-                <td data-value="{{ $user->status }}" data-name="status" data-pk="{{ $user->id }}" data-options="{{ http_build_query($user->status_arr) }}" v-ajax-edit>{{ $user->status_text }}</td>
+                <td data-name="name" data-pk="{{ $item->id }}" v-ajax-edit>{{ $item->username }}</td>
+                <td>{{ $item->email }}</td>
+                <td>{{ $item->created_at->format('Y-m-d H:i') }}</td>
+                <td data-value="{{ $item->status }}" data-name="status" data-pk="{{ $item->id }}" data-options="{{ http_build_query($item->getStatusLists()) }}" v-ajax-edit>{{ $item->status_text }}</td>
                 <td>
-                    <a href="{{ route('uikit.edit', $user->id) }}">编辑</a>
-                    <a href="{{ route('uikit.destroy', $user->id) }}" v-delete>删除</a>
+                    <a href="{{ route('uikit.edit', $item->id) }}">编辑</a>
+                    <a href="{{ route('uikit.destroy', $item->id) }}" v-delete>删除</a>
                 </td>
             </tr>
             @endforeach
@@ -163,13 +163,13 @@ UI Kit=
     </form>
     <div class="pagination-box">
         <div>
-            共有 {{ $users->total() }} 条记录
+            共有 {{ $lists->total() }} 条记录
         </div>
         <div>
-            {{ $users->withPath(regenUrl())->links() }}
+            {{ $lists->withPath(regenUrl())->links() }}
             <div class="page-control">
                 <form action="{{ regenUrl() }}" method="get">
-                    <input class="form-control" min="1" max="{{ $users->lastPage() }}" name="page" type="number" value="{{ $users->currentPage() }}"> / {{ $users->lastPage() }} 页
+                    <input class="form-control" min="1" max="{{ $lists->lastPage() }}" name="page" type="number" value="{{ $lists->currentPage() }}"> / {{ $lists->lastPage() }} 页
                 </form>
             </div>
         </div>

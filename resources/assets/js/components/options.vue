@@ -3,7 +3,7 @@
         <template v-if="getType === 'checkbox'">
             <div class="checkbox-inline" v-for="(option, index) in options">
                 <label>
-                    <input type="checkbox" :name="name + '[]'" :value="index" :checked="value === index.toString()">
+                    <input type="checkbox" :name="name + '[]'" :value="index" :checked="value === index.toString()" @change="onChange">
                     {{ option }}
                 </label>
             </div>
@@ -11,13 +11,13 @@
         <template v-else-if="getType === 'radio'">
             <div class="radio-inline" v-for="(option, index) in options">
                 <label>
-                    <input type="radio" :name="name" :value="index" :checked="value === index.toString()">
+                    <input type="radio" :name="name" :value="index" :checked="value === index.toString()" @change="onChange">
                     {{ option }}
                 </label>
             </div>
         </template>
         <template v-else>
-            <select :name="name" class="form-control">
+            <select :name="name" class="form-control" @change="onChange">
                 <option :value="index" :selected="value === index.toString()" v-for="(option, index) in options">{{ option }}</option>
             </select>
         </template>
@@ -60,6 +60,11 @@ export default {
                 }, {});
             }
             return this.source;
+        },
+    },
+    methods: {
+        onChange(e) {
+            this.$emit('change', e);
         },
     },
 };

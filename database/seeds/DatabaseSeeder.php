@@ -11,21 +11,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (App::environment() === 'production') {
-            exit('兄弟,这是正式环境!');
-        }
         \Illuminate\Database\Eloquent\Model::unguard();
-        // $this->call(UsersTableSeeder::class);
         Schema::disableForeignKeyConstraints();
-        factory(\App\Models\User::class, 50)->create();
-        factory(\App\Models\Tag::class, 10)->create();
-        factory(\App\Models\Category::class, 5)->create();
-        factory(\App\Models\DocumentModel::class, 1)->create();
-        factory(\App\Models\Document::class, 50)->create()->each(function($document) {
-            $document->post()->save(factory(\App\Models\Post::class)->make(['id' => $document->id]));
-//            $document->post()->tag()->save(factory(\App\Models\Tag::class)->make(['object_id' => $document->id]));
-        });
+
+        // 全局配置
+        $this->call(GlobalConfigSeeder::class);
+
+        $this->call(DocumentModelSeeder::class);
+
+        // 用户
+        $this->call(UserGroupSeeder::class);
+        $this->call(UserPermissionGroupSeeder::class);
+
+        // 后台管理
+        $this->call(AdminRoleSeeder::class);
+
+        // 组件
+        $this->call(AdvertCategorySeeder::class);
+
+        // 省市区
+//        $this->call(AreasTableSeeder::class);
         Schema::enableForeignKeyConstraints();
+
         \Illuminate\Database\Eloquent\Model::reguard();
     }
 }

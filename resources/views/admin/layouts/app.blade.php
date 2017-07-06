@@ -83,34 +83,38 @@
         icon: 'ion-person',
         collapsed: true,
         children: [{
-            name: '用户管理',
+            name: '用户列表',
             href: '{{ url("admin/uikit") }}'
-        }, {
-            name: '添加用户',
-            href: '{{ url("admin/uikit/create") }}'
         }],
     }, {
         name: '内容',
         icon: 'ion-ios-paper',
         collapsed: true,
         children: [{
-            name: 'Team1'
+            name: '文章管理',
+            href: '{{ url('admin/document_post') }}',
         }, {
-            name: '三级导航',
-            icon: 'ion-ios-paper',
-            children: [{
-                name: '选项7',
-                icon: 'ion-ios-paper',
-                href: '{{ url("admin/home") }}',
-            }, {
-                name: '选项8',
-                href: '{{ url("admin/uikit") }}'
-            }]
+            name: '单页管理',
+            href: '{{ url('admin/document') }}',
         }],
     }, {
         name: '系统',
         icon: 'ion-gear-b',
-        href: '{{ url("admin/uikit") }}'
+        collapsed: true,
+        children: [{
+            name: '系统配置',
+            href: '{{ url('admin/config') }}',
+        }, {
+            name: '模型管理',
+            href: '{{ url('admin/document_model') }}',
+        }, {
+            name: '分类管理',
+            href: '{{ url('admin/category') }}',
+        }],
+    }, {
+        name: '回收站',
+        icon: 'ion-ios-trash-outline',
+        href: '{{ url('admin/recycle_bin') }}',
     }];
 </script>
 @yield('js')

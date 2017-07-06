@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Models\Category;
-use App\Models\Document;
-use App\Models\DocumentModel;
-use App\Models\Post;
-use App\Models\Tag;
-use App\Models\Taggable;
-use App\Models\User;
-use App\Models\UserData;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\Models\User\User;
 
-class UikitController extends Controller
+class UikitController extends BaseController
 {
+
+    /**
+     * UikitController constructor.
+     */
+    public function __construct(User $model)
+    {
+        $this->model = $model;
+        parent::__construct();
+    }
+
     function index() {
-        $users = User::orderBy('id','desc')->paginate();
-        return view('admin.uikit.index', compact('users'));
+        $lists = $this->model::orderBy('id','desc')->paginate();
+        return view('admin.uikit.index', compact('lists'));
     }
 
     public function create()
@@ -30,7 +30,7 @@ class UikitController extends Controller
     public function store(UserRequest $request)
     {
         $data = $request->all();
-        $data['id'] = User::create($data);
+        $data['id'] = $this->model::create($data);
         if ($data['id']) {
             return $this->redirectUrl($request->input('from_url'))->apiResponse(1, '添加成功！', $data['id']);
         } else {
@@ -40,8 +40,8 @@ class UikitController extends Controller
 
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('admin.uikit.form', compact('user'));
+        $data = $this->model::find($id);
+        return view('admin.uikit.form', compact('data'));
     }
 
     public function update($id, UserRequest $request)
@@ -52,7 +52,7 @@ class UikitController extends Controller
         } else {
             unset($data['password']);
         }
-        $ret = User::find($id)->update($data);
+        $ret = $this->model::find($id)->update($data);
         if ($ret) {
             return $this->apiResponse(1, '保存成功！', $data);
         } else {
@@ -62,24 +62,32 @@ class UikitController extends Controller
 
     public function destroy($id=0)
     {
-        if (User::destroy(str2arr($id))) {
+        if ($this->model::destroy(str2arr($id))) {
             return $this->flash('删除成功', 'success');
         } else {
             return $this->flash('删除失败', 'danger');
         }
     }
 
-    public function enable(User $user, Request $request)
+    /**
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function enable()
     {
-        $ids = $request->input('id');
-        $user->whereIn('id', $ids)->update(['status'=>1]);
+        $ids = $this->request->input('id');
+        $this->model->whereIn('id', $ids)->update(['status'=>1]);
         return $this->flash('操作成功！', 'success');
     }
 
-    public function disable(User $user, Request $request)
+    /**
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function disable()
     {
-        $ids = $request->input('id');
-        $user->whereIn('id', $ids)->update(['status'=>0]);
+        $ids = $this->request->input('id');
+        $this->model->whereIn('id', $ids)->update(['status'=>0]);
         return $this->flash('操作成功！', 'success');
     }
 }

@@ -20,13 +20,15 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         error_reporting(E_ALL ^ E_NOTICE);
-        Schema::defaultStringLength(191);   // 兼容低版本数据库
+        Schema::defaultStringLength(120);   // 兼容低版本数据库
         Carbon::setLocale('zh');
 
         if ($this->app->environment() == 'local') {
             $this->app->singleton(\Faker\Generator::class, function () {
                 return \Faker\Factory::create('zh_CN');
             });
+            $this->app->register(\Lookfeel\Boilerplate\GeneratorCommandServiceProvider::class);
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
             DB::listen(function ($query) {
                 Log::debug($query->sql, $query->bindings, $query->time);
             });
@@ -50,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
 
 
         Relation::morphMap([
-            'post' => \App\Models\Post::class,
+            'post' => \App\Models\DocumentPost\DocumentPost::class,
         ]);
     }
 

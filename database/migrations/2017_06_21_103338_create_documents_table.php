@@ -30,6 +30,8 @@ class CreateDocumentsTable extends Migration
             $table->unsignedInteger('comment_count')->default('0')->comment('评论量');
             $table->integer('sort_id')->default('0')->comment('排序Id');
             $table->tinyInteger('status')->default('0')->comment('状态');
+            $table->timestamp('expired_at')->nullable()->default(null)->comment('有效期限，null 为不限');
+            $table->timestamp('published_at')->nullable()->default(null)->comment('发布时间，null 为不限');
             $table->softDeletes();
             $table->timestamps();
         });
