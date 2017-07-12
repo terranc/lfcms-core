@@ -1,5 +1,6 @@
 <?php
-function regenUrl($key = '', $val = '', $action = '', $pageName = 'page') {
+function regenUrl($key = '', $val = '', $action = '', $pageName = 'page')
+{
     $query = \App\Libraries\QueryString::getInstance();
     $query->add($_SERVER['QUERY_STRING']);
     $query->remove($pageName);
@@ -26,29 +27,34 @@ function regenUrl($key = '', $val = '', $action = '', $pageName = 'page') {
     return url($action) . $query->get();
 }
 
-function arr2str($arr, $glue = ',') {
+function arr2str($arr, $glue = ',')
+{
     return implode($glue, $arr);
 }
 
-function str2arr($str, $glue = ',') {
+function str2arr($str, $glue = ',')
+{
     return explode($glue, $str);
 }
 
-function html_encode($str) {
+function html_encode($str)
+{
     return htmlspecialchars($str);
 }
 
-function html_decode($str) {
+function html_decode($str)
+{
     return htmlspecialchars_decode($str);
 }
 
-if(!function_exists('sql_debug')){
-    function sql_debug(){
+if (!function_exists('sql_debug')) {
+    function sql_debug()
+    {
         // AppServiceProvider 配置文件夹 local 默认开启
         \DB::enableQueryLog();
     }
 }
-if(!function_exists('getSql')){
+if (!function_exists('getSql')) {
     function getSql()
     {
         //若没有开启 sql_debug 则需要手动调用
@@ -58,7 +64,8 @@ if(!function_exists('getSql')){
 
 
 if (!function_exists('array_change_key_case_recursive')) {
-    function array_change_key_case_recursive($arr) {
+    function array_change_key_case_recursive($arr)
+    {
         return array_map(function ($item) {
             if (is_array($item)) $item = array_change_key_case_recursive($item);
             return $item;
@@ -66,14 +73,16 @@ if (!function_exists('array_change_key_case_recursive')) {
     }
 }
 
-function array_change_key_camel_recursive($arr) {
+function array_change_key_camel_recursive($arr)
+{
     return array_map(function ($item) {
         if (is_array($item)) $item = array_change_key_camel_recursive($item);
         return $item;
     }, camel_case($arr));
 }
 
-function verify_idcard($idcard = '') {
+function verify_idcard($idcard = '')
+{
     if (strlen($idcard) == 15) {
         // 如果身份证顺序码是996 997 998 999,这些是为百岁以上老人的特殊编码
         if (array_search(substr($idcard, 12, 3), array('996', '997', '998', '999')) != false) {
@@ -143,7 +152,8 @@ function verify_idcard($idcard = '') {
     }
 }
 
-function _idcard_verify_number($idcard_base) {
+function _idcard_verify_number($idcard_base)
+{
     // 加权因子
     $factor = array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
 
@@ -162,10 +172,12 @@ function _idcard_verify_number($idcard_base) {
 
 /**
  * 字节格式化 把字节数格式为 B K M G T 描述的大小
+ *
  * @return string
  */
 
-function byte_format($size, $dec = 2) {
+function byte_format($size, $dec = 2)
+{
     $a = array("B", "KB", "MB", "GB", "TB", "PB");
     $pos = 0;
     while ($size >= 1024) {
@@ -177,7 +189,8 @@ function byte_format($size, $dec = 2) {
 
 // 自动转换字符集 支持数组转换
 
-function auto_charset($fContents, $from = 'gbk', $to = 'utf-8') {
+function auto_charset($fContents, $from = 'gbk', $to = 'utf-8')
+{
     $from = strtoupper($from) == 'UTF8' ? 'utf-8' : $from;
     $to = strtoupper($to) == 'UTF8' ? 'utf-8' : $to;
     if (strtoupper($from) === strtoupper($to) || empty($fContents) || (is_scalar($fContents) && !is_string($fContents))) {
@@ -205,7 +218,8 @@ function auto_charset($fContents, $from = 'gbk', $to = 'utf-8') {
 }
 
 
-function get_zodiac($date) {
+function get_zodiac($date)
+{
     if (strstr($date, '-') === false && strlen($date) !== 8) $date = date("Y-m-d", $date);
     if (strlen($date) === 8) {
         if (eregi('([0-9]{4})([0-9]{2})([0-9]{2})$', $date, $bir)) $date = "{$bir[1]}-{$bir[2]}-{$bir[3]}";
@@ -249,7 +263,7 @@ function get_zodiac($date) {
  * +--------------------------------------------------------------------
  *
  * @param  string $dir 需要创新的目录
- * +--------------------------------------------------------------------
+ *                     +--------------------------------------------------------------------
  *
  * @return 若目录存在,或创建成功则返回为TRUE
  * +--------------------------------------------------------------------
@@ -257,7 +271,8 @@ function get_zodiac($date) {
  * +--------------------------------------------------------------------
  */
 
-function mkdirs($dir, $mode = 0777) {
+function mkdirs($dir, $mode = 0777)
+{
     if (is_dir($dir) || mkdir($dir, $mode)) return TRUE;
     if (!mkdirs(dirname($dir), $mode)) return FALSE;
     return mkdir($dir, $mode);
@@ -265,26 +280,27 @@ function mkdirs($dir, $mode = 0777) {
 
 
 //生成16位md5
-function md5_16($str) {
+function md5_16($str)
+{
     return substr(md5($str), 8, 16);
 }
 
 
-
 // 分析枚举类型配置值 格式 a:名称1,b:名称2
-function parse_config_attr($string) {
+function parse_config_attr($string)
+{
     $array = preg_split('/[,;\r\n]+/', trim($string, ",;\r\n"));
     if (strpos($string, ':')) {
         $value = array();
         foreach ($array as $val) {
             list($k, $v) = explode(':', $val);
             $v = explode('|', $v);
-            if(count($v) > 1){
-                $value[$k] = array_map(function($item){
+            if (count($v) > 1) {
+                $value[$k] = array_map(function ($item) {
                     return trim($item);
                 }, $v);
-            }else{
-                $value[$k]   = trim($v[0]);
+            } else {
+                $value[$k] = trim($v[0]);
             }
         }
     } else {
@@ -294,8 +310,12 @@ function parse_config_attr($string) {
 }
 
 // 分析数组配置 格式 a:名称1,b:名称2
-function parse_array_config($string) {
+function parse_array_config($string)
+{
     $string = trim($string);
+    if (empty($string)) {
+        return null;
+    }
     if (0 === strpos($string, ':')) {
         // 采用函数定义
         return eval('return ' . substr($string, 1) . ';');
@@ -310,12 +330,12 @@ function parse_array_config($string) {
         if (strpos($val, ':') !== FALSE) {
             list($k, $v) = explode(':', $val);
             $v = explode('|', $v);
-            if(count($v) > 1){
-                $value[$k] = array_map(function($item){
+            if (count($v) > 1) {
+                $value[$k] = array_map(function ($item) {
                     return trim($item);
                 }, $v);
-            }else{
-                $value[$k]   = trim($v[0]);
+            } else {
+                $value[$k] = trim($v[0]);
             }
         } else {
             $value[] = $val;
@@ -323,22 +343,30 @@ function parse_array_config($string) {
     }
     return $value;
 }
+
 // 还原数组配置
-function revert_array_config($arr=array()) {
-    $str = '';
-    foreach ($arr as $k => $v) {
-        if (is_array($v)) {
-            $str .= $k . ':';
-            $str .= join('|', $v);
-            $str .= "\n";
-        } else {
-            $str .= $k . ':' . $v . "\n";
+function revert_array_config($arr = [])
+{
+    if (is_array($arr)) {
+        $str = '';
+        foreach ($arr as $k => $v) {
+            if (is_array($v)) {
+                $str .= $k . ':';
+                $str .= join('|', $v);
+                $str .= "\n";
+            } else {
+                $str .= $k . ':' . $v . "\n";
+            }
         }
+        return trim($str);
+    } else {
+        return null;
     }
-    return trim($str);
 }
+
 // 解析枚举配置
-function parse_enum_config($str = '') {
+function parse_enum_config($str = '')
+{
     $str = trim($str);
     if (strpos($str, '*') === FALSE) {
         return '';
@@ -354,9 +382,11 @@ function parse_enum_config($str = '') {
     }
     return $value;
 }
+
 // 数字转成中文
-if(!function_exists('numToZh')) {
-    function numToZh($num, $type){
+if (!function_exists('numToZh')) {
+    function numToZh($num, $type)
+    {
         // 如果开头是 0，系统默认是八进制/十六进制，暂时不考虑
         if (substr($num, 0, 2) != '0.' && substr($num, 0, 1) == 0) {
             return '数据格式不正确，请检查';
@@ -400,7 +430,8 @@ if (!function_exists('doTrans')) {
 }
 // 四位为单位进行转换,带单位
 if (!function_exists('integerFourFormat')) {
-    function integerFourFormat($array, $type, $isNeedUnit = 1) {
+    function integerFourFormat($array, $type, $isNeedUnit = 1)
+    {
         $zhSpecialArray = $type == 'chs' ? ['千', '百', '十', '零'] : ['仟', '佰', '拾', '零'];
         $zhPrimaryArray = getDataByType($type);
         // 千百十个的单位，用于处理整体超过5位，后几位是000x类的
@@ -417,7 +448,8 @@ if (!function_exists('integerFourFormat')) {
 }
 // 四位为单位进行转换,带单位
 if (!function_exists('decimalFourFormat')) {
-    function decimalFourFormat($array, $type) {
+    function decimalFourFormat($array, $type)
+    {
         $zhPrimaryArray = getDataByType($type);
         $str = '';
         foreach ($array as $key => $value) {
@@ -428,17 +460,100 @@ if (!function_exists('decimalFourFormat')) {
 }
 // 根据type 来获取数组
 if (!function_exists('getDataByType')) {
-    function getDataByType($type) {
+    function getDataByType($type)
+    {
         $zhs = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
         $zht = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖', '拾'];
         return $type == 'chs' ? $zhs : $zht;
     }
 }
 
-function upload_image($file, $dir = null, $savename = null){
+function upload_image($file, $dir = null, $savename = null)
+{
     $ret = (new \App\Services\UploadService())->upload($file, $dir, $savename);
     return $ret;
 }
-function get_thumb_url($path = '', $dimension = '') {
+
+function get_thumb_url($path = '', $dimension = '')
+{
     return (new \App\Services\UploadService())->getThumbUrl($path, $dimension);
+}
+
+
+/**
+ * 把返回的数据集转换成Tree
+ *
+ * @param array  $list  要转换的数据集
+ * @param string $pid   parent标记字段
+ * @param        string $ child children 标记字段
+ *
+ * @return array
+ */
+function array_tree($list, $pk = 'id', $parent_id = 'parent_id', $child = '_child', $root = 0)
+{
+    // 创建Tree
+    $tree = array();
+    if (is_array($list)) {
+        // 创建基于主键的数组引用
+        $refer = array();
+        foreach ($list as $key => $data) {
+            $refer[$data[$pk]] =& $list[$key];
+        }
+        foreach ($list as $key => $data) {
+            // 判断是否存在parent
+            $parentId = $data[$parent_id];
+            if ($root == $parentId) {
+                $tree[] =& $list[$key];
+            } else {
+                if (isset($refer[$parentId])) {
+                    $parent =& $refer[$parentId];
+                    $parent[$child][] =& $list[$key];
+                }
+            }
+        }
+    }
+    return $tree;
+}
+
+
+/**
+ * 在数据列表中搜索（支持多维数组）
+ *
+ * @access public
+ *
+ * @param array $list      数据列表
+ * @param mixed $condition 查询条件
+ *                         支持 array('name'=>$value) 或者 name=$value
+ *
+ * @return array
+ */
+function array_where_recursive($list, $condition)
+{
+    if (is_string($condition))
+        parse_str($condition, $condition);
+    // 返回的结果集合
+    $resultSet = array();
+    foreach ($list as $key => $data) {
+        $find = false;
+        foreach ($condition as $field => $value) {
+            if (isset($data[$field])) {
+                if (0 === strpos($value, '/')) {
+                    $find = preg_match($value, $data[$field]);
+                } elseif ($data[$field] == $value) {
+                    $find = true;
+                }
+            }
+        }
+        if ($find)
+            $resultSet[] =   &$list[$key];
+    }
+    return $resultSet;
+}
+
+/**
+ * Array 转 Object
+ */
+function array2object($arr)
+{
+    return json_decode(json_encode($arr));
 }

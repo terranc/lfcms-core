@@ -35,7 +35,7 @@ $brand-danger:              #d9534f !default;
 $gray-dark:                 #373a3c !default;
 $gray:                      #55595c !default;
 $gray-light:                #818a91 !default;
-$gray-lighter: #ccc !default;
+$gray-lighter: #eee !default;
 $gray-lightest:             #f7f7f9 !default;
 
 $base-font-color: #4B4B4B;
@@ -113,3 +113,23 @@ $breadcrumb-bg: transparent;
 
 $breadcrumb-padding-vertical: 0;
 $breadcrumb-padding-horizontal: 0;
+
+
+//=== Shared nav styles
+$nav-link-padding:                          10px 20px !default;
+$nav-link-hover-bg:                         $gray-lighter !default;
+
+$nav-disabled-link-color:                   $gray-light !default;
+$nav-disabled-link-hover-color:             $gray-light !default;
+
+// Tabs
+$nav-tabs-border-color:                     #ddd !default;
+
+$nav-tabs-link-hover-border-color:          $gray-lighter !default;
+
+$nav-tabs-active-link-hover-bg:             $white;
+$nav-tabs-active-link-hover-color:          $gray-dark !default;
+$nav-tabs-active-link-hover-border-color:   #ddd !default;
+
+$nav-tabs-justified-link-border-color:            #ddd !default;
+$nav-tabs-justified-active-link-border-color:     $body-bg !default;

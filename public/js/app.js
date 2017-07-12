@@ -1027,16 +1027,16 @@ Vue.directive('ajax-form', {
             axios.post(e.target.action, data).then(function (res) {
                 $('.form-group', el).removeClass('has-error');
                 if (res.data.code > 0) {
-                    _bootbox2.default.alert({
-                        message: res.data.message,
-                        callback: function callback() {
-                            if (res.data.redirect_url) {
-                                location.href = res.data.redirect_url;
-                            } else {
-                                location.reload();
-                            }
-                        }
+                    $.notify(res.data.message, {
+                        type: 'success'
                     });
+                    setTimeout(function () {
+                        if (res.data.redirect_url) {
+                            location.href = res.data.redirect_url;
+                        } else {
+                            location.reload();
+                        }
+                    }, 1600);
                 } else if (res.data.code === -422) {
                     if (res.data.data !== null && res.data.toString() === '[object Object]') {
                         var firstError = void 0;
@@ -1068,6 +1068,8 @@ Vue.directive('ajax-edit', {
             el.removeAttribute('data-' + item);
         });
         $(el).wrapInner(elLink).children('a').editable({
+            emptytext: '-',
+            emptyclass: '',
             ajaxOptions: {
                 type: 'PATCH'
             },
@@ -1090,6 +1092,11 @@ Vue.directive('ajax-edit', {
                     $.notify(res.data.message, {
                         type: 'success'
                     });
+                    if (elLink.dataset.reload !== undefined) {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1200);
+                    }
                 } else {
                     _bootbox2.default.alert(res.data.data[elLink.dataset.name][0]);
                     return false;
@@ -1237,6 +1244,18 @@ $(function () {
     $('input[data-clear]').addClear({
         closeSymbol: '✖',
         symbolClass: ''
+    });
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        var _this3 = this;
+
+        location.hash = e.target.hash.substring(1);
+        setTimeout(function () {
+            $(_this3).trigger('callback.bs.tab');
+        }, 100);
+    }).each(function () {
+        if (location.hash) {
+            $(this).filter('[href=\'' + location.hash + '\']').trigger('click');
+        }
     });
 });
 

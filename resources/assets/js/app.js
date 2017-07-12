@@ -255,16 +255,16 @@ Vue.directive('ajax-form', {
             axios.post(e.target.action, data).then(res => {
                 $('.form-group', el).removeClass('has-error');
                 if (res.data.code > 0) {
-                    bootbox.alert({
-                        message: res.data.message,
-                        callback: () => {
-                            if (res.data.redirect_url) {
-                                location.href = res.data.redirect_url;
-                            } else {
-                                location.reload();
-                            }
-                        },
+                    $.notify(res.data.message, {
+                        type: 'success',
                     });
+                    setTimeout(() => {
+                        if (res.data.redirect_url) {
+                            location.href = res.data.redirect_url;
+                        } else {
+                            location.reload();
+                        }
+                    }, 1600);
                 } else if (res.data.code === -422) {
                     if (res.data.data !== null && res.data.toString() === '[object Object]') {
                         let firstError;
@@ -296,6 +296,8 @@ Vue.directive('ajax-edit', {
             el.removeAttribute('data-' + item);
         });
         $(el).wrapInner(elLink).children('a').editable({
+            emptytext: '-',
+            emptyclass: '',
             ajaxOptions: {
                 type: 'PATCH',
             },
@@ -318,6 +320,11 @@ Vue.directive('ajax-edit', {
                     $.notify(res.data.message, {
                         type: 'success',
                     });
+                    if (elLink.dataset.reload !== undefined) {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1200);
+                    }
                 } else {
                     bootbox.alert(res.data.data[elLink.dataset.name][0]);
                     return false;
@@ -463,6 +470,16 @@ $(function() {
     $('input[data-clear]').addClear({
         closeSymbol: '✖',
         symbolClass: '',
+    });
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        location.hash = e.target.hash.substring(1);
+        setTimeout(() => {
+            $(this).trigger('callback.bs.tab');
+        }, 100);
+    }).each(function() {
+        if (location.hash) {
+            $(this).filter(`[href='${location.hash}']`).trigger('click');
+        }
     });
 });
 // document.querySelector('#sidebar .ant-menu-root').querySelector('a')

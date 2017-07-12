@@ -16,12 +16,14 @@ class Category extends Base
     //
     use SoftDeletes, AttributeStatusTrait;
 
+    protected $parent = 'parent_id';
+
     protected $casts = [
         'meta' => 'array',
-        'is_system' => 'boolean',
-        'is_check' => 'boolean',
-        'is_comment' => 'boolean',
-        'is_display' => 'boolean',
+//        'is_system' => 'boolean',
+//        'is_check' => 'boolean',
+//        'is_comment' => 'boolean',
+//        'is_display' => 'boolean',
     ];
 
     const TYPES = [
@@ -30,7 +32,27 @@ class Category extends Base
         'link' => '链接',
     ];
 
+    const DISPLAY = [
+        '隐藏',
+        '显示',
+    ];
+
+    const CHECK = [
+        '不需要',
+        '需要',
+    ];
+
+    const COMMENT = [
+        '不允许',
+        '允许',
+    ];
+
     protected $events = [
         'deleted' => AddRecycleBin::class,
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+    }
 }

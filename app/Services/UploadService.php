@@ -90,9 +90,6 @@ class UploadService
 
     public function getThumbUrl($url = '', $dimension = null)
     {
-        $validator = \Validator::make(['url' => $url], [
-            'url' => 'url',
-        ]);
         if ($this->suffix) {
             if ($dimension) {
                 $dimension_path = str_replace_last(pathinfo($url, PATHINFO_FILENAME), pathinfo($url, PATHINFO_FILENAME) . '_' . $dimension, $url);

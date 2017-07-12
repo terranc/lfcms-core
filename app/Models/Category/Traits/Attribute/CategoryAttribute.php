@@ -19,6 +19,32 @@ trait CategoryAttribute
 
     public function getThumbAttribute($value)
     {
-        return \Storage::url($value);
+        return $value ? \Storage::url($value) : '';
+    }
+    public function setMetaAttribute($value)
+    {
+        $this->attributes['meta'] = trim($value) ?: null;
+    }
+
+    public function getMetaAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function getListTplAttribute($value)
+    {
+        return $value ?? 'document/index';
+    }
+
+    public function getShowTplAttribute($value)
+    {
+        return $value ?? 'document/show';
+    }
+
+    public function getPathAttribute()
+    {
+        $path = [];
+
+        return $path;
     }
 }

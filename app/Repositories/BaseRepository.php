@@ -32,7 +32,7 @@ class BaseRepository
      * @param array $data
      * @return \App\Models\Document
      */
-    public function create(array $data)
+    public function create($data = [])
     {
         return $this->model->create($data);
     }
@@ -43,21 +43,9 @@ class BaseRepository
      * @param $id
      * @return \App\Models\Document
      */
-    public function update($data = [], $id)
+    public function update($id, $data = [])
     {
         return $this->model->find($id)->update($data);
-    }
-
-    /**
-     * Store a document
-     * @param array $data
-     * @return \App\Models\Document
-     */
-    public function store($data = [])
-    {
-        $this->model->id = $data['id'];
-        //...
-        return $this->model->save();
     }
 
     /**

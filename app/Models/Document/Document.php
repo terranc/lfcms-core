@@ -23,7 +23,7 @@ class Document extends Base
 
     protected $casts = [
         'position' => 'array',
-        'is_comment' => 'boolean',
+//        'is_comment' => 'boolean',
     ];
 
     protected $events = [

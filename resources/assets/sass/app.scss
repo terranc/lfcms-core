@@ -582,7 +582,10 @@ body {
     }
     .col-form-control {
       width: 100%;
-
+      max-width: 800px;
+      input, textarea, blockquote  {
+        max-width: 800px;
+      }
       .help-block {
         display: none;
         margin-bottom: 0;

@@ -28,6 +28,7 @@ class CategoryRequest extends FormRequest
                 'title' => ['sometimes','required','max:100'],
                 'type' => 'sometimes|required|in:link,page,list',
                 'flag' => 'sometimes|required|alpha_dash|max:20|unique:categories,flag,' . $this->id,
+                'meta' => 'sometimes|nullable|json',
                 'description' => 'max:255',
             ];
         } else {
@@ -36,6 +37,7 @@ class CategoryRequest extends FormRequest
                 'type' => 'required|in:link,page,list',
                 'thumb' => 'image',
                 'flag' => 'required|alpha_dash|max:20|unique:categories,flag,',
+                'meta' => 'nullable|json',
                 'description' => 'max:255',
             ];
         }
@@ -46,6 +48,7 @@ class CategoryRequest extends FormRequest
             'title' => '分类名称',
             'flag' => '标识',
             'type' => '类型',
+            'meta' => '扩展配置',
             'thumb' => '缩略图',
         ];
     }
