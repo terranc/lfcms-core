@@ -6,6 +6,19 @@
 
 ## 配置
 
+### 缓存
+
+#### 让 File Driver 支持 Tags
+为了方便的使用laravel cache 的 tags 功能，按如下配置，其它使用方法与 `file` 缓存无异
+```php
+'default' => env('CACHE_DRIVER', 'tfile'),
+```
+
+.env: 
+```env
+CACHE_DRIVER=tfile
+```
+
 ## 工具
 
 ### Traits

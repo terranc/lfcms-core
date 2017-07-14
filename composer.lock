@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d688e0067636ceaff60c55bc5b27388b",
+    "content-hash": "625f14b879e2a84d39701fc737d40476",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -251,6 +251,75 @@
                 "parser"
             ],
             "time": "2017-03-29T16:04:15+00:00"
+        },
+        {
+            "name": "graham-campbell/exceptions",
+            "version": "v9.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrahamCampbell/Laravel-Exceptions.git",
+                "reference": "b2001ce4e992ca473af6f470cddfcf6e0a83430d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://dl.composer-proxy.org/graham-campbell/exceptions/b2001ce4e992ca473af6f470cddfcf6e0a83430d.zip",
+                "reference": "b2001ce4e992ca473af6f470cddfcf6e0a83430d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
+                "paragonie/random_compat": "^1.1|^2.0",
+                "php": ">=5.5.9",
+                "psr/log": "^1.0",
+                "symfony/debug": "^2.7|^3.0",
+                "symfony/http-foundation": "^2.7|^3.0"
+            },
+            "require-dev": {
+                "filp/whoops": "^1.1|^2.0",
+                "graham-campbell/testbench": "^3.1",
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^4.8|^5.0"
+            },
+            "suggest": {
+                "filp/whoops": "Enables use of the debug displayer."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GrahamCampbell\\Exceptions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com"
+                }
+            ],
+            "description": "Provides A Powerful Error Response System For Both Development And Production",
+            "keywords": [
+                "Graham Campbell",
+                "GrahamCampbell",
+                "Laravel Exceptions",
+                "Laravel-Exceptions",
+                "error",
+                "errors",
+                "exception",
+                "exceptions",
+                "framework",
+                "laravel",
+                "whoops"
+            ],
+            "time": "2017-01-21T16:49:20+00:00"
         },
         {
             "name": "imagine/imagine",
@@ -2124,6 +2193,42 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2016-09-20T12:50:39+00:00"
+        },
+        {
+            "name": "unikent/tfilecache",
+            "version": "dev-patch-1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/boyd91/taggedFileCache.git",
+                "reference": "055af4607a5e7d1d6fb771e2e90cdb363b0f18e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/boyd91/taggedFileCache/zipball/055af4607a5e7d1d6fb771e2e90cdb363b0f18e9",
+                "reference": "055af4607a5e7d1d6fb771e2e90cdb363b0f18e9",
+                "shasum": ""
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": "~3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Unikent\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "gjmh-unikent",
+                    "email": "g.haddow@kent.ac.uk"
+                }
+            ],
+            "description": "Taggable File Cache driver for Laravel. Allows the use of Cache tags with a file cache.",
+            "support": {
+                "source": "https://github.com/boyd91/taggedFileCache/tree/patch-1"
+            },
+            "time": "2017-05-04 15:25:39"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -4377,6 +4482,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "unikent/tfilecache": 20,
         "yingouqlj/china-region": 20,
         "znck/belongs-to-through": 20,
         "terranc/lf-generator": 20

@@ -39,6 +39,9 @@
                 @component('admin.components.form-item', ['label'=>'描述', 'class'=>'top'])
                     <textarea class="form-control" name="description">{{ $data->description }}</textarea>
                 @endcomponent
+                @component('admin.components.form-item', ['label'=>'内容', 'class'=>'top'])
+                    <textarea class="form-control" name="content">{!! $data->content !!}</textarea>
+                @endcomponent
                 @component('admin.components.form-item', ['label'=>'状态'])
                     <lf-options name="status" value="{{ $data->status ?? 1 }}" :source="{{ json_encode($data->status_arr ?? $model->getStatusLists()) }}"></lf-options>
                 @endcomponent

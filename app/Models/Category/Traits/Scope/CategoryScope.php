@@ -7,5 +7,4 @@ namespace App\Models\Category\Traits\Scope;
  */
 trait CategoryScope
 {
-    //
 }

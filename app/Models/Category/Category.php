@@ -7,7 +7,10 @@ use App\Models\Base;
 use App\Models\Category\Traits\Scope\CategoryScope;
 use App\Models\Category\Traits\Attribute\CategoryAttribute;
 use App\Models\Category\Traits\Relationship\CategoryRelationship;
+use App\Scopes\HideContentScope;
 use App\Traits\AttributeStatusTrait;
+use App\Traits\ScopeHideContentTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Base
@@ -25,6 +28,10 @@ class Category extends Base
 //        'is_comment' => 'boolean',
 //        'is_display' => 'boolean',
     ];
+
+//    protected $hidden = [
+//        'content',
+//    ];
 
     const TYPES = [
         'list' => '列表',
@@ -51,8 +58,7 @@ class Category extends Base
         'deleted' => AddRecycleBin::class,
     ];
 
-    public static function boot()
-    {
-        parent::boot();
-    }
+    protected $scopes = [
+        HideContentScope::class,
+    ];
 }

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Libraries\Tree;
 use App\Models\Category\Category;
 use App\Exceptions\GeneralException;
+use App\Scopes\HideContentScope;
 
 class CategoryRepository extends BaseRepository
 {
@@ -15,6 +16,11 @@ class CategoryRepository extends BaseRepository
     {
         $this->model = $category;
         $this->query = $this->model->query();
+    }
+
+    public function find($id, $columns = ['*'])
+    {
+        return $this->model->withoutGlobalScope(HideContentScope::class)->find($id);
     }
 
     public function getChildrenIds($root = 0)

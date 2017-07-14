@@ -31,6 +31,7 @@ class CreateCategoriesTable extends Migration
             $table->string('list_tpl', 50)->nullable()->default(null)->comment('列表模板');
             $table->string('show_tpl', 50)->nullable()->default(null)->comment('详情模板');
             $table->json('meta')->nullable()->comment('更多配置JSON');
+            $table->text('content')->nullable()->default(null)->comment('文章内容');
             $table->softDeletes();
             $table->timestamps();
         });

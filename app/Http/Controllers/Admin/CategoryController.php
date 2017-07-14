@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Libraries\Tree;
 use App\Models\Category\Category;
 use App\Repositories\CategoryRepository;
+use App\Scopes\HideContentScope;
 
 class CategoryController extends BaseController
 {
@@ -55,7 +56,7 @@ class CategoryController extends BaseController
 
     public function edit($id)
     {
-        $data = $this->model::find($id);
+        $data = $this->repository->find($id);
         return view('admin.category.form', compact('data'));
     }
 

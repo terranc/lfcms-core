@@ -181,6 +181,8 @@ return [
         Overtrue\LaravelLang\TranslationServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
+        Unikent\Cache\TaggableFileCacheServiceProvider::class,
+        GrahamCampbell\Exceptions\ExceptionsServiceProvider,
     ],
 
     /*

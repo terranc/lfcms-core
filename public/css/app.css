@@ -10054,17 +10054,29 @@ a.editable-click.editable-disabled:hover {
   }
 }
 
+.table-header .control-group + .search-form {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.table-header .control-group + .search-form input[type=text].form-control {
+  max-width: none;
+  width: auto;
+}
+
 @media (max-width: 992px) {
   .table-header .search-form {
     margin: 19px 0;
+  }
+  .table-header .search-form input[type=text].form-control {
+    width: 100% !important;
   }
 }
 
 @media (min-width: 992px) {
   .table-header .search-form {
-    -webkit-box-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
+    max-width: 400px;
   }
 }
 

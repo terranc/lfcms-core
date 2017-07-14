@@ -131,13 +131,24 @@
         margin-top: 5px;
       }
     }
+    & + .search-form {
+      flex: 1;
+      input[type=text].form-control {
+        max-width: none;
+        width: auto;
+      }
+    }
   }
+
   .search-form {
     @media (max-width: $screen-md-min) {
       margin: $line-height-computed 0;
+      input[type=text].form-control {
+        width: 100% !important;
+      }
     }
     @media (min-width: $screen-md-min) {
-      flex: 1;
+      max-width: 400px;
     }
   }
 }
