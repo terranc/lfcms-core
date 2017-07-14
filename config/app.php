@@ -182,7 +182,8 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         Unikent\Cache\TaggableFileCacheServiceProvider::class,
-        GrahamCampbell\Exceptions\ExceptionsServiceProvider,
+        Overtrue\LaravelUEditor\UEditorServiceProvider::class,
+        Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
     ],
 
     /*

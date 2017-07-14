@@ -1106,6 +1106,16 @@ Vue.directive('ajax-edit', {
     }
 });
 
+Vue.directive('dropdown', {
+    bind: function bind(el, binding) {
+        if (window.innerWidth < 992) {
+            $(el).wrapInner('<div class="dropdown"><ul class="dropdown-menu"></ul></button>').find('.dropdown-menu').before('<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">操作<span class="caret"></span>').find('a').each(function () {
+                $(this).wrap('<li />');
+            });
+        }
+    }
+});
+
 Vue.component('lf-datepicker', _datepicker2.default);
 Vue.component('lf-options', _options2.default);
 

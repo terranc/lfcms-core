@@ -39,8 +39,8 @@
                 @component('admin.components.form-item', ['label'=>'描述', 'class'=>'top'])
                     <textarea class="form-control" name="description">{{ $data->description }}</textarea>
                 @endcomponent
-                @component('admin.components.form-item', ['label'=>'内容', 'class'=>'top'])
-                    <textarea class="form-control" name="content">{!! $data->content !!}</textarea>
+                @component('admin.components.form-item', ['label'=>'内容', 'class'=>'top', 'wrapperId'=>'content-form-control', 'wrapperStyle' => 'display: none'])
+                    <textarea id="content" name="content" class="editor" rows="15">{!! $data->content !!}</textarea>
                 @endcomponent
                 @component('admin.components.form-item', ['label'=>'状态'])
                     <lf-options name="status" value="{{ $data->status ?? 1 }}" :source="{{ json_encode($data->status_arr ?? $model->getStatusLists()) }}"></lf-options>
@@ -88,6 +88,7 @@
 @endsection
 @section('js')
     @include('admin.public.codemirror')
+    @include('vendor.ueditor.assets')
     <script>
         $(function(){
             $('a[data-toggle="tab"]').on('callback.bs.tab', function(e) {
@@ -95,7 +96,14 @@
                     this.editor.setValue(js_beautify(this.value));
                 });
             });
-        })
+            $('select[name=type]').on('change', function() {
+                if ($(this).val() === 'page') {
+                    $('#content-form-control').show();
+                } else {
+                    $('#content-form-control').hide();
+                }
+            }).trigger('change');
+        });
     </script>
 @endsection
 

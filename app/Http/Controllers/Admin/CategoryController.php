@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CategoryRequest;
-use App\Libraries\Tree;
 use App\Models\Category\Category;
 use App\Repositories\CategoryRepository;
-use App\Scopes\HideContentScope;
 
 class CategoryController extends BaseController
 {

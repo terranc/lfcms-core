@@ -333,6 +333,19 @@ Vue.directive('ajax-edit', {
         });
     },
 });
+// 对小屏操作列优化成下拉菜单
+Vue.directive('dropdown', {
+    bind: (el, binding) => {
+        if (window.innerWidth < 992) {
+            $(el).wrapInner('<div class="dropdown"><ul class="dropdown-menu"></ul></button>')
+            .find('.dropdown-menu')
+            .before('<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">操作<span class="caret"></span>')
+            .find('a').each(function () {
+                $(this).wrap('<li />');
+            });
+        }
+    },
+});
 
 Vue.component('lf-datepicker', datepicker);
 Vue.component('lf-options', options);

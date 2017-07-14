@@ -4,11 +4,11 @@ namespace App\Exceptions;
 
 use App\Traits\JsonResponseTrait;
 use Exception;
-use GrahamCampbell\Exceptions\NewExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 
-class Handler extends NewExceptionHandler
+class Handler extends ExceptionHandler
 {
     use JsonResponseTrait;
     /**
