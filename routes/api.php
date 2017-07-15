@@ -22,3 +22,6 @@ Route::group(['middle' => ['auth:api']], function () {
         Route::get('/', 'IndexController@index');
     });
 });
+Route::group(['namespace' => 'Api\V1'], function () {
+    Route::any('/common/ueditor_upload', 'CommonController@ueditorUpload');
+});

@@ -8,11 +8,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
-use App\Models\Config\Config;
 use App\Models\Document\Document;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
 
     public function index()

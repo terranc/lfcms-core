@@ -9,9 +9,9 @@
 (function(){
 
     var video = {},
-        uploadVideoList = [],
-        isModifyUploadVideo = false,
-        uploadFile;
+      uploadVideoList = [],
+      isModifyUploadVideo = false,
+      uploadFile;
 
     window.onload = function(){
         $focus($G("videoUrl"));
@@ -50,13 +50,13 @@
             var img = editor.selection.getRange().getClosedNode(),url;
             if(img && img.className){
                 var hasFakedClass = (img.className == "edui-faked-video"),
-                    hasUploadClass = img.className.indexOf("edui-upload-video")!=-1;
+                  hasUploadClass = img.className.indexOf("edui-upload-video")!=-1;
                 if(hasFakedClass || hasUploadClass) {
                     $G("videoUrl").value = url = img.getAttribute("_url");
                     $G("videoWidth").value = img.width;
                     $G("videoHeight").value = img.height;
                     var align = domUtils.getComputedStyle(img,"float"),
-                        parentAlign = domUtils.getComputedStyle(img.parentNode,"text-align");
+                      parentAlign = domUtils.getComputedStyle(img.parentNode,"text-align");
                     updateAlignButton(parentAlign==="center"?"center":align);
                 }
                 if(hasUploadClass) {
@@ -115,17 +115,40 @@
      */
     function insertSingle(){
         var width = $G("videoWidth"),
-            height = $G("videoHeight"),
-            url=$G('videoUrl').value,
-            align = findFocus("videoFloat","name");
+          height = $G("videoHeight"),
+          url=$G('videoUrl').value,
+          align = findFocus("videoFloat","name");
         if(!url) return false;
         if ( !checkNum( [width, height] ) ) return false;
-        editor.execCommand('insertvideo', {
-            url: convert_url(url),
-            width: width.value,
-            height: height.value,
-            align: align
-        }, isModifyUploadVideo ? 'upload':null);
+
+        url = utils.trim(url);
+        if(/^<iframe/.test(url)){
+            var conUrl = '';
+            if(/src=\"[^\s"]+/i.test(url)){
+                conUrl = url.match(/src=\"[^\s"]+/i)[0].substr(5);
+            }
+            var newIframe = editor.document.createElement("iframe");
+            var div;
+            newIframe.setAttribute("src",/http:\/\/|https:\/\//ig.test(conUrl) ? conUrl : "http://"+conUrl);
+            /^[1-9]+[.]?\d*$/g.test( width.value ) ? newIframe.setAttribute("width",width.value) : "";
+            /^[1-9]+[.]?\d*$/g.test( height.value ) ? newIframe.setAttribute("height",height.value) : "";
+            //newIframe.setAttribute("scrolling","no");
+            newIframe.setAttribute("frameborder","0",0);
+            newIframe.setAttribute("allowfullscreen","allowfullscreen");
+            newIframe.setAttribute("align",align);
+            newIframe.setAttribute("class","video_iframe");
+            div = editor.document.createElement("div");
+            div.appendChild(newIframe);
+            console.log(div.innerHTML);
+            editor.execCommand("inserthtml",div.innerHTML);
+        } else {
+            editor.execCommand('insertvideo', {
+                url: convert_url(url),
+                width: width.value,
+                height: height.value,
+                align: align
+            }, isModifyUploadVideo ? 'upload':null);
+        }
     }
 
     /**
@@ -134,7 +157,7 @@
      */
     function insertSearch(id){
         var imgs = domUtils.getElementsByTagName($G(id),"img"),
-            videoObjs=[];
+          videoObjs=[];
         for(var i=0,img; img=imgs[i++];){
             if(img.getAttribute("selected")){
                 videoObjs.push({
@@ -155,7 +178,7 @@
      */
     function findFocus( id, returnProperty ) {
         var tabs = $G( id ).children,
-                property;
+          property;
         for ( var i = 0, ci; ci = tabs[i++]; ) {
             if ( ci.className=="focus" ) {
                 property = ci.getAttribute( returnProperty );
@@ -167,38 +190,38 @@
     function convert_url(url){
         if ( !url ) return '';
         url = utils.trim(url)
-            .replace(/v\.youku\.com\/v_show\/id_([\w\-=]+)\.html/i, 'player.youku.com/player.php/sid/$1/v.swf')
-            .replace(/(www\.)?youtube\.com\/watch\?v=([\w\-]+)/i, "www.youtube.com/v/$2")
-            .replace(/youtu.be\/(\w+)$/i, "www.youtube.com/v/$1")
-            .replace(/v\.ku6\.com\/.+\/([\w\.]+)\.html.*$/i, "player.ku6.com/refer/$1/v.swf")
-            .replace(/www\.56\.com\/u\d+\/v_([\w\-]+)\.html/i, "player.56.com/v_$1.swf")
-            .replace(/www.56.com\/w\d+\/play_album\-aid\-\d+_vid\-([^.]+)\.html/i, "player.56.com/v_$1.swf")
-            .replace(/v\.pps\.tv\/play_([\w]+)\.html.*$/i, "player.pps.tv/player/sid/$1/v.swf")
-            .replace(/www\.letv\.com\/ptv\/vplay\/([\d]+)\.html.*$/i, "i7.imgs.letv.com/player/swfPlayer.swf?id=$1&autoplay=0")
-            .replace(/www\.tudou\.com\/programs\/view\/([\w\-]+)\/?/i, "www.tudou.com/v/$1")
-            .replace(/v\.qq\.com\/cover\/[\w]+\/[\w]+\/([\w]+)\.html/i, "static.video.qq.com/TPout.swf?vid=$1")
-            .replace(/v\.qq\.com\/.+[\?\&]vid=([^&]+).*$/i, "static.video.qq.com/TPout.swf?vid=$1")
-            .replace(/my\.tv\.sohu\.com\/[\w]+\/[\d]+\/([\d]+)\.shtml.*$/i, "share.vrs.sohu.com/my/v.swf&id=$1");
+          .replace(/v\.youku\.com\/v_show\/id_([\w\-=]+)\.html/i, 'player.youku.com/player.php/sid/$1/v.swf')
+          .replace(/(www\.)?youtube\.com\/watch\?v=([\w\-]+)/i, "www.youtube.com/v/$2")
+          .replace(/youtu.be\/(\w+)$/i, "www.youtube.com/v/$1")
+          .replace(/v\.ku6\.com\/.+\/([\w\.]+)\.html.*$/i, "player.ku6.com/refer/$1/v.swf")
+          .replace(/www\.56\.com\/u\d+\/v_([\w\-]+)\.html/i, "player.56.com/v_$1.swf")
+          .replace(/www.56.com\/w\d+\/play_album\-aid\-\d+_vid\-([^.]+)\.html/i, "player.56.com/v_$1.swf")
+          .replace(/v\.pps\.tv\/play_([\w]+)\.html.*$/i, "player.pps.tv/player/sid/$1/v.swf")
+          .replace(/www\.letv\.com\/ptv\/vplay\/([\d]+)\.html.*$/i, "i7.imgs.letv.com/player/swfPlayer.swf?id=$1&autoplay=0")
+          .replace(/www\.tudou\.com\/programs\/view\/([\w\-]+)\/?/i, "www.tudou.com/v/$1")
+          .replace(/v\.qq\.com\/cover\/[\w]+\/[\w]+\/([\w]+)\.html/i, "static.video.qq.com/TPout.swf?vid=$1")
+          .replace(/v\.qq\.com\/.+[\?\&]vid=([^&]+).*$/i, "static.video.qq.com/TPout.swf?vid=$1")
+          .replace(/my\.tv\.sohu\.com\/[\w]+\/[\d]+\/([\d]+)\.shtml.*$/i, "share.vrs.sohu.com/my/v.swf&id=$1");
 
         return url;
     }
 
     /**
-      * 检测传入的所有input框中输入的长宽是否是正数
-      * @param nodes input框集合，
-      */
-     function checkNum( nodes ) {
-         for ( var i = 0, ci; ci = nodes[i++]; ) {
-             var value = ci.value;
-             if ( !isNumber( value ) && value) {
-                 alert( lang.numError );
-                 ci.value = "";
-                 ci.focus();
-                 return false;
-             }
-         }
-         return true;
-     }
+     * 检测传入的所有input框中输入的长宽是否是正数
+     * @param nodes input框集合，
+     */
+    function checkNum( nodes ) {
+        for ( var i = 0, ci; ci = nodes[i++]; ) {
+            var value = ci.value;
+            if ( !isNumber( value ) && value) {
+                alert( lang.numError );
+                ci.value = "";
+                ci.focus();
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * 数字判断
@@ -209,24 +232,24 @@
     }
 
     /**
-      * 创建图片浮动选择按钮
-      * @param ids
-      */
-     function createAlignButton( ids ) {
-         for ( var i = 0, ci; ci = ids[i++]; ) {
-             var floatContainer = $G( ci ),
-                     nameMaps = {"none":lang['default'], "left":lang.floatLeft, "right":lang.floatRight, "center":lang.block};
-             for ( var j in nameMaps ) {
-                 var div = document.createElement( "div" );
-                 div.setAttribute( "name", j );
-                 if ( j == "none" ) div.className="focus";
-                 div.style.cssText = "background:url(images/" + j + "_focus.jpg);";
-                 div.setAttribute( "title", nameMaps[j] );
-                 floatContainer.appendChild( div );
-             }
-             switchSelect( ci );
-         }
-     }
+     * 创建图片浮动选择按钮
+     * @param ids
+     */
+    function createAlignButton( ids ) {
+        for ( var i = 0, ci; ci = ids[i++]; ) {
+            var floatContainer = $G( ci ),
+              nameMaps = {"none":lang['default'], "left":lang.floatLeft, "right":lang.floatRight, "center":lang.block};
+            for ( var j in nameMaps ) {
+                var div = document.createElement( "div" );
+                div.setAttribute( "name", j );
+                if ( j == "none" ) div.className="focus";
+                div.style.cssText = "background:url(images/" + j + "_focus.jpg);";
+                div.setAttribute( "title", nameMaps[j] );
+                floatContainer.appendChild( div );
+            }
+            switchSelect( ci );
+        }
+    }
 
     /**
      * 选择切换
@@ -267,26 +290,40 @@
      */
     function createPreviewVideo(url){
         if ( !url )return;
+        url = utils.trim(url);
+        if(/^<iframe/.test(url)){
+            var conUrl = '';
+            if(/src=\"[^\s"]+/i.test(url)){
+                conUrl = url.match(/src=\"[^\s"]+/i)[0].substr(5);
+            }
+            $G("preview").innerHTML = '<div class="previewMsg"><span>'+lang.urlError+'</span></div>'+
+              '<iframe class="previewVideo"' +
+              ' src="' + conUrl + '"' +
+              ' width="' + 420  + '"' +
+              ' height="' + 280  + '"' +
+              ' frameborder=0 allowfullscreen>' +
+              '</iframe>';
+        } else {
+            var conUrl = convert_url(url);
 
-        var conUrl = convert_url(url);
-
-        $G("preview").innerHTML = '<div class="previewMsg"><span>'+lang.urlError+'</span></div>'+
-        '<embed class="previewVideo" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
-            ' src="' + conUrl + '"' +
-            ' width="' + 420  + '"' +
-            ' height="' + 280  + '"' +
-            ' wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" >' +
-        '</embed>';
+            $G("preview").innerHTML = '<div class="previewMsg"><span>'+lang.urlError+'</span></div>'+
+              '<embed class="previewVideo" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
+              ' src="' + conUrl + '"' +
+              ' width="' + 420  + '"' +
+              ' height="' + 280  + '"' +
+              ' wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" >' +
+              '</embed>';
+        }
     }
 
 
     /* 插入上传视频 */
     function insertUpload(){
         var videoObjs=[],
-            uploadDir = editor.getOpt('videoUrlPrefix'),
-            width = $G('upload_width').value || 420,
-            height = $G('upload_height').value || 280,
-            align = findFocus("upload_alignment","name") || 'none';
+          uploadDir = editor.getOpt('videoUrlPrefix'),
+          width = $G('upload_width').value || 420,
+          height = $G('upload_height').value || 280,
+          align = findFocus("upload_alignment","name") || 'none';
         for(var key in uploadVideoList) {
             var file = uploadVideoList[key];
             videoObjs.push({
@@ -329,52 +366,52 @@
         /* 初始化容器 */
         initUploader: function () {
             var _this = this,
-                $ = jQuery,    // just in case. Make sure it's not an other libaray.
-                $wrap = _this.$wrap,
-            // 图片容器
-                $queue = $wrap.find('.filelist'),
-            // 状态栏，包括进度和控制按钮
-                $statusBar = $wrap.find('.statusBar'),
-            // 文件总体选择信息。
-                $info = $statusBar.find('.info'),
-            // 上传按钮
-                $upload = $wrap.find('.uploadBtn'),
-            // 上传按钮
-                $filePickerBtn = $wrap.find('.filePickerBtn'),
-            // 上传按钮
-                $filePickerBlock = $wrap.find('.filePickerBlock'),
-            // 没选择文件之前的内容。
-                $placeHolder = $wrap.find('.placeholder'),
-            // 总体进度条
-                $progress = $statusBar.find('.progress').hide(),
-            // 添加的文件数量
-                fileCount = 0,
-            // 添加的文件总大小
-                fileSize = 0,
-            // 优化retina, 在retina下这个值是2
-                ratio = window.devicePixelRatio || 1,
-            // 缩略图大小
-                thumbnailWidth = 113 * ratio,
-                thumbnailHeight = 113 * ratio,
-            // 可能有pedding, ready, uploading, confirm, done.
-                state = '',
-            // 所有文件的进度信息，key为file id
-                percentages = {},
-                supportTransition = (function () {
-                    var s = document.createElement('p').style,
-                        r = 'transition' in s ||
-                            'WebkitTransition' in s ||
-                            'MozTransition' in s ||
-                            'msTransition' in s ||
-                            'OTransition' in s;
-                    s = null;
-                    return r;
-                })(),
-            // WebUploader实例
-                uploader,
-                actionUrl = editor.getActionUrl(editor.getOpt('videoActionName')),
-                fileMaxSize = editor.getOpt('videoMaxSize'),
-                acceptExtensions = (editor.getOpt('videoAllowFiles') || []).join('').replace(/\./g, ',').replace(/^[,]/, '');;
+              $ = jQuery,    // just in case. Make sure it's not an other libaray.
+              $wrap = _this.$wrap,
+              // 图片容器
+              $queue = $wrap.find('.filelist'),
+              // 状态栏，包括进度和控制按钮
+              $statusBar = $wrap.find('.statusBar'),
+              // 文件总体选择信息。
+              $info = $statusBar.find('.info'),
+              // 上传按钮
+              $upload = $wrap.find('.uploadBtn'),
+              // 上传按钮
+              $filePickerBtn = $wrap.find('.filePickerBtn'),
+              // 上传按钮
+              $filePickerBlock = $wrap.find('.filePickerBlock'),
+              // 没选择文件之前的内容。
+              $placeHolder = $wrap.find('.placeholder'),
+              // 总体进度条
+              $progress = $statusBar.find('.progress').hide(),
+              // 添加的文件数量
+              fileCount = 0,
+              // 添加的文件总大小
+              fileSize = 0,
+              // 优化retina, 在retina下这个值是2
+              ratio = window.devicePixelRatio || 1,
+              // 缩略图大小
+              thumbnailWidth = 113 * ratio,
+              thumbnailHeight = 113 * ratio,
+              // 可能有pedding, ready, uploading, confirm, done.
+              state = '',
+              // 所有文件的进度信息，key为file id
+              percentages = {},
+              supportTransition = (function () {
+                  var s = document.createElement('p').style,
+                    r = 'transition' in s ||
+                      'WebkitTransition' in s ||
+                      'MozTransition' in s ||
+                      'msTransition' in s ||
+                      'OTransition' in s;
+                  s = null;
+                  return r;
+              })(),
+              // WebUploader实例
+              uploader,
+              actionUrl = editor.getActionUrl(editor.getOpt('videoActionName')),
+              fileMaxSize = editor.getOpt('videoMaxSize'),
+              acceptExtensions = (editor.getOpt('videoAllowFiles') || []).join('').replace(/\./g, ',').replace(/^[,]/, '');;
 
             if (!WebUploader.Uploader.support()) {
                 $('#filePickerReady').after($('<div>').html(lang.errorNotSupport)).hide();
@@ -409,39 +446,39 @@
             // 当有文件添加进来时执行，负责view的创建
             function addFile(file) {
                 var $li = $('<li id="' + file.id + '">' +
-                        '<p class="title">' + file.name + '</p>' +
-                        '<p class="imgWrap"></p>' +
-                        '<p class="progress"><span></span></p>' +
-                        '</li>'),
+                    '<p class="title">' + file.name + '</p>' +
+                    '<p class="imgWrap"></p>' +
+                    '<p class="progress"><span></span></p>' +
+                    '</li>'),
 
-                    $btns = $('<div class="file-panel">' +
-                        '<span class="cancel">' + lang.uploadDelete + '</span>' +
-                        '<span class="rotateRight">' + lang.uploadTurnRight + '</span>' +
-                        '<span class="rotateLeft">' + lang.uploadTurnLeft + '</span></div>').appendTo($li),
-                    $prgress = $li.find('p.progress span'),
-                    $wrap = $li.find('p.imgWrap'),
-                    $info = $('<p class="error"></p>').hide().appendTo($li),
+                  $btns = $('<div class="file-panel">' +
+                    '<span class="cancel">' + lang.uploadDelete + '</span>' +
+                    '<span class="rotateRight">' + lang.uploadTurnRight + '</span>' +
+                    '<span class="rotateLeft">' + lang.uploadTurnLeft + '</span></div>').appendTo($li),
+                  $prgress = $li.find('p.progress span'),
+                  $wrap = $li.find('p.imgWrap'),
+                  $info = $('<p class="error"></p>').hide().appendTo($li),
 
-                    showError = function (code) {
-                        switch (code) {
-                            case 'exceed_size':
-                                text = lang.errorExceedSize;
-                                break;
-                            case 'interrupt':
-                                text = lang.errorInterrupt;
-                                break;
-                            case 'http':
-                                text = lang.errorHttp;
-                                break;
-                            case 'not_allow_type':
-                                text = lang.errorFileType;
-                                break;
-                            default:
-                                text = lang.errorUploadRetry;
-                                break;
-                        }
-                        $info.text(text).show();
-                    };
+                  showError = function (code) {
+                      switch (code) {
+                          case 'exceed_size':
+                              text = lang.errorExceedSize;
+                              break;
+                          case 'interrupt':
+                              text = lang.errorInterrupt;
+                              break;
+                          case 'http':
+                              text = lang.errorHttp;
+                              break;
+                          case 'not_allow_type':
+                              text = lang.errorFileType;
+                              break;
+                          default:
+                              text = lang.errorUploadRetry;
+                              break;
+                      }
+                      $info.text(text).show();
+                  };
 
                 if (file.getStatus() === 'invalid') {
                     showError(file.statusText);
@@ -449,7 +486,7 @@
                     $wrap.text(lang.uploadPreview);
                     if ('|png|jpg|jpeg|bmp|gif|'.indexOf('|'+file.ext.toLowerCase()+'|') == -1) {
                         $wrap.empty().addClass('notimage').append('<i class="file-preview file-type-' + file.ext.toLowerCase() + '"></i>' +
-                            '<span class="file-title">' + file.name + '</span>');
+                          '<span class="file-title">' + file.name + '</span>');
                     } else {
                         if (browser.ie && browser.version <= 7) {
                             $wrap.text(lang.uploadNoPreview);
@@ -510,7 +547,7 @@
 
                 $btns.on('click', 'span', function () {
                     var index = $(this).index(),
-                        deg;
+                      deg;
 
                     switch (index) {
                         case 0:
@@ -551,9 +588,9 @@
 
             function updateTotalProgress() {
                 var loaded = 0,
-                    total = 0,
-                    spans = $progress.children(),
-                    percent;
+                  total = 0,
+                  spans = $progress.children(),
+                  percent;
 
                 $.each(percentages, function (k, v) {
                     total += v[ 0 ];
@@ -578,7 +615,7 @@
 
                     switch (val) {
 
-                        /* 未选择文件 */
+                      /* 未选择文件 */
                         case 'pedding':
                             $queue.addClass('element-invisible');
                             $statusBar.addClass('element-invisible');
@@ -587,7 +624,7 @@
                             uploader.refresh();
                             break;
 
-                        /* 可以开始上传 */
+                      /* 可以开始上传 */
                         case 'ready':
                             $placeHolder.addClass('element-invisible');
                             $queue.removeClass('element-invisible');
@@ -597,13 +634,13 @@
                             uploader.refresh();
                             break;
 
-                        /* 上传中 */
+                      /* 上传中 */
                         case 'uploading':
                             $progress.show(); $info.hide();
                             $upload.text(lang.uploadPause);
                             break;
 
-                        /* 暂停上传 */
+                      /* 暂停上传 */
                         case 'paused':
                             $progress.show(); $info.hide();
                             $upload.text(lang.uploadContinue);
@@ -656,8 +693,8 @@
                 } else {
                     stats = uploader.getStats();
                     text = lang.updateStatusFinish.replace('_', fileCount).
-                        replace('_KB', WebUploader.formatSize(fileSize)).
-                        replace('_', stats.successNum);
+                    replace('_KB', WebUploader.formatSize(fileSize)).
+                    replace('_', stats.successNum);
 
                     if (stats.uploadFailNum) {
                         text += lang.updateStatusError.replace('_', stats.uploadFailNum);
@@ -702,7 +739,7 @@
                     case 'startUpload':
                         /* 添加额外的GET参数 */
                         var params = utils.serializeParam(editor.queryCommandValue('serverparam')) || '',
-                            url = utils.formatUrl(actionUrl + (actionUrl.indexOf('?') == -1 ? '?':'&') + 'encode=utf-8&' + params);
+                          url = utils.formatUrl(actionUrl + (actionUrl.indexOf('?') == -1 ? '?':'&') + 'encode=utf-8&' + params);
                         uploader.option('server', url);
                         setState('uploading', files);
                         break;
@@ -719,7 +756,7 @@
 
             uploader.on('uploadProgress', function (file, percentage) {
                 var $li = $('#' + file.id),
-                    $percent = $li.find('.progress span');
+                  $percent = $li.find('.progress span');
 
                 $percent.css('width', percentage * 100 + '%');
                 percentages[ file.id ][ 1 ] = percentage;
@@ -730,7 +767,7 @@
                 var $file = $('#' + file.id);
                 try {
                     var responseText = (ret._raw || ret),
-                        json = utils.str2json(responseText);
+                      json = utils.str2json(responseText);
                     if (json.state == 'SUCCESS') {
                         uploadVideoList.push({
                             'url': json.url,

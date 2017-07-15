@@ -40,7 +40,7 @@ return [
     | Supported Drivers: "local", "ftp", "s3", "rackspace"
     |
     */
- 
+
     'disks' => [
 
         'local' => [
@@ -55,12 +55,23 @@ return [
             'visibility' => 'public',
         ],
 
+
+        // 七牛存储
         'qiniu' => [
             'driver'     => 'qiniu',
-            'access_key' => env('QINIU_ACCESS_KEY', 'xxxxxxxxxxxxxxxx'),
-            'secret_key' => env('QINIU_SECRET_KEY', 'xxxxxxxxxxxxxxxx'),
-            'bucket'     => env('QINIU_BUCKET', 'test'),
-            'domain'     => env('QINIU_DOMAIN', 'xxx.clouddn.com'), // or host: https://xxxx.clouddn.com
+            'access_key' => env('QINIU_ACCESS_KEY', 'xxxx'),
+            'secret_key' => env('QINIU_SECRET_KEY', 'xxxx'),
+            'bucket'     => env('QINIU_BUCKET', 'xxx'),
+            'domain'     => env('QINIU_DOMAIN', 'xxxx.qbox.me'), // or host: https://xxxx.clouddn.com
+        ],
+        // 又拍云存储
+        'upyun' => [
+            'driver'        => 'upyun',
+            'bucket'        => 'lookfeel',// 服务名字
+            'operator'      => 'lookfeel', // 操作员的名字
+            'password'      => 'lookfeel84224353', // 操作员的密码
+            'domain'        => 'lookfeel.b0.upaiyun.com', // 服务分配的域名
+            'protocol'     => 'https', // 服务使用的协议，如需使用 http，在此配置 http
         ],
 
         's3' => [

@@ -184,6 +184,7 @@ return [
         Unikent\Cache\TaggableFileCacheServiceProvider::class,
         Overtrue\LaravelUEditor\UEditorServiceProvider::class,
         Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
+        JellyBool\Flysystem\Upyun\UpyunServiceProvider::class,
     ],
 
     /*

@@ -5,7 +5,7 @@
 <script>
     $('.editor').each(function() {
         this.editor = UE.getEditor($(this).attr('id'), $.extend(window.UEDITOR_CONFIG, {
-            serverUrl: '{{ config('ueditor.route.name') }}',
+            serverUrl: '/api/common/ueditor_upload',
             initialContent: '',
             serverparam: {
                 '_token': $('meta[name="csrf-token"]').attr('content') || '',
