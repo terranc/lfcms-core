@@ -27,7 +27,7 @@
             imageScaleEnabled: false,
             allHtmlEnabled: false,
             elementPathEnabled: false,
-            catchRemoteImageEnable: true,
+            catchRemoteImageEnable: false,
 
             zIndex: 1,
             listDefaultPaddingLeft: '30',

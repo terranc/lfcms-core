@@ -13,16 +13,13 @@ trait JsonResponseTrait {
     private $redirect_url;
 
     /**
-     * @param int $code
+     * @param int    $code
      * @param string $message
-     * @param null $data
-     * @return \Illuminate\Http\JsonResponse
-     * 返回值规范说明:
-     * 1、成功正数（多种成功情况，不同的正数数字标示,原则上是不样的message对应不同的code）
-     * 2、报错、失败、异常负数（返回数据集，但数据集为[]或null，不属于报错、失败、异常，所以视为成功，仅仅暂无数据而已）
-     * 3、404、403、500等http status code可以均直接加上`-`号(如:-404),作为错误code,方便大家一目了然
+     * @param null   $data
+     *
+     * @return array
      */
-    protected function apiResponse($code = 200, $message = '', $data = null) {
+    protected function apiArray($code = 200, $message = '', $data = null) {
         if (is_array($code)) {
             $res = [
                 'code' => $code['code'],
@@ -36,6 +33,22 @@ trait JsonResponseTrait {
                 'data' => $data,
             ];
         }
+        return $res;
+    }
+
+
+    /**
+     * @param int $code
+     * @param string $message
+     * @param null $data
+     * @return \Illuminate\Http\JsonResponse
+     * 返回值规范说明:
+     * 1、成功正数（多种成功情况，不同的正数数字标示,原则上是不样的message对应不同的code）
+     * 2、报错、失败、异常负数（返回数据集，但数据集为[]或null，不属于报错、失败、异常，所以视为成功，仅仅暂无数据而已）
+     * 3、404、403、500等http status code可以均直接加上`-`号(如:-404),作为错误code,方便大家一目了然
+     */
+    protected function apiResponse($code = 200, $message = '', $data = null) {
+        $res = $this->apiArray($code, $message, $data);
         if ($this->redirect_url) {
             $res['redirect_url'] = $this->redirect_url;
         }

@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Event' => [
-            'App\Listeners\EventListener',
+        'App\Events\CategoryDelete' => [
+            'App\Listeners\DeleteDocumentByCategory',   // 删除分类相关内容
         ],
     ];
 

@@ -78,10 +78,11 @@ class CategoryController extends BaseController
 
     public function destroy($id=0)
     {
-        if ($this->model::destroy(str2arr($id))) {
-            return $this->flash('删除成功', 'success');
+        $ret = $this->repository->delete(str2arr($id));
+        if ($ret['code'] > 0) {
+            return $this->flash($ret['message'], 'success');
         } else {
-            return $this->flash('删除失败', 'danger');
+            return $this->flash($ret['message'], 'danger');
         }
     }
 }

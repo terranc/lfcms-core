@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api\V1;
 
 
 use Illuminate\Http\Request;
+use Upyun\Uploader;
 
 class CommonController extends BaseController
 {
@@ -22,7 +23,6 @@ class CommonController extends BaseController
         switch ($request->get('action')) {
             case 'config':
                 return config('ueditor.upload');
-
             // lists
             case $upload['imageManagerActionName']:
                 return $storage->listFiles(
@@ -40,4 +40,5 @@ class CommonController extends BaseController
                 return $storage->upload($request);
         }
     }
+
 }

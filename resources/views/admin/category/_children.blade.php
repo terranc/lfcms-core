@@ -1,7 +1,7 @@
 <tr>
     <td data-name="sort_id" data-pk="{{ $item->id }}" data-reload v-ajax-edit>{{ $item->sort_id }}</td>
     <td>{{ $item->id }}</td>
-    <td>{{ ($item->_level > 1 ? '|' : '') . str_repeat('—', $item->_level - 1) }} <span data-name="title" data-pk="{{ $item->id }}" v-ajax-edit>{{ $item->title }}</span></td>
+    <td>{{ ($item->_level > 1 ? '|' : '') . str_repeat('—', $item->_level - 1) }} <span data-name="title" data-pk="{{ $item->id }}" v-ajax-edit>{{ $item->title }}</span>{{ $item->is_system ? '（系统）' : '' }}</td>
     <td data-name="flag" data-pk="{{ $item->id }}" v-ajax-edit>{{ $item->flag }}</td>
     <td data-value="{{ $item->type }}" data-name="type" data-pk="{{ $item->id }}" data-options="{{ http_build_query($model->getTypeLists()) }}" v-ajax-edit>{{ $item->type_text }}</td>
     <td data-name="description" data-type="textarea" data-pk="{{ $item->id }}" v-ajax-edit>{{ $item->description }}</td>
